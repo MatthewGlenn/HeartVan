@@ -43,6 +43,9 @@ public class SignController : MonoBehaviour
     private SpriteRenderer leftChoiceSR;
     private SpriteRenderer rightChoiceSR;
 
+    private Queue lastKeys;
+    private int lastKeysMaxCount = 10;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -142,6 +145,8 @@ public class SignController : MonoBehaviour
     	leftChoiceSR = upSelectionSprite.GetComponent<SpriteRenderer>();
     	rightChoiceSR = rightSelectionSprite.GetComponent<SpriteRenderer>();
 
+    	lastKeys = new Queue();
+
     	this.randomize();
     }
 
@@ -161,13 +166,25 @@ public class SignController : MonoBehaviour
     private void randomize()
     {
     	System.Random rand = new System.Random();
-    	string choiceSprite = keys[rand.Next(0, keys.Length)];
+    	string choiceSprite;
+    	
+    	do
+    	{
+    		choiceSprite = keys[rand.Next(0, keys.Length)];
+    	} while (lastKeys.Contains(choiceSprite) == true);
+
+    	lastKeys.Enqueue(choiceSprite);
+    	if (lastKeys.Count > lastKeysMaxCount) {
+    		lastKeys.Dequeue();
+    	}
 
     	leftSignSR.sprite = sprites[spriteIndex[choiceSprite]];
     	rightSignSR.sprite = sprites[spriteIndex[choiceSprite]];
     	upChoiceSR.sprite = sprites[spriteIndex[choices[choiceSprite].left]];
     	leftChoiceSR.sprite = sprites[spriteIndex[choices[choiceSprite].up]];
     	rightChoiceSR.sprite = sprites[spriteIndex[choices[choiceSprite].right]];
+
+
     }
 
     private void flip()
