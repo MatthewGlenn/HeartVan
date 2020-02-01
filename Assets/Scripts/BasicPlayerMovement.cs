@@ -9,6 +9,8 @@ public class BasicPlayerMovement : MonoBehaviour
     public float sidewaysForce = 500f;
     public Transform road;
     public float timeToDriftToCenter = 4f;
+    
+
     private enum Lanes {
         Left = -2,
         Middle = 0,
@@ -18,6 +20,7 @@ public class BasicPlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         float movement = Input.GetAxis("Horizontal") * Time.fixedDeltaTime * sidewaysForce;
+        
         
         if (Input.GetKey("a")){
             moveToLane(Lanes.Left);
@@ -32,6 +35,7 @@ public class BasicPlayerMovement : MonoBehaviour
     //
     Lanes getLaneForInput(string input)
     {
+        
         //TODO: Set the Correct Lane best on the input
         return Lanes.Middle;
     }
