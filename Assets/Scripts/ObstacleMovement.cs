@@ -8,6 +8,6 @@ public class ObstacleMovement : MonoBehaviour
     public Rigidbody rigidbody;
     void FixedUpdate()
     {
-        //rigidbody.MovePosition(z);
+        rigidbody.AddForce(0, 0, -speed * Time.fixedDeltaTime);
     }
 }
