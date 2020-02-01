@@ -8,18 +8,25 @@ public class SignFactory : MonoBehaviour
     public GameObject signPrefab;
     public float signZstart = 100f;
 
+    public float deltaTime = 0f;
+
+    SignController sc;
+
     // Start is called before the first frame update
     void Start()
     {
         // Instantiate at position (0, 0, 0) and zero rotation.
         GameObject sign = Instantiate(signPrefab, new Vector3(0, 0, signZstart), Quaternion.identity);
-        SignController sc = sign.GetComponent<SignController>();
-        sc.setLeft();
+        sc = sign.GetComponent<SignController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        deltaTime += Time.deltaTime;
+        if (deltaTime > 7f) {
+        	sc.next();
+        	deltaTime = 0f;
+        }
     }
 }
