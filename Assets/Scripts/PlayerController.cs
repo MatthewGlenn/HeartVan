@@ -167,7 +167,7 @@ public class PlayerController : MonoBehaviour
         foreach (string joystickName in joystickNames)
         {
             Debug.Log(joystickName);
-            if (joystickName.ToLower().Contains("xbox wireless controller" || "xbox bluetooth gamepad"))
+            if (joystickName.ToLower().Contains("xbox wireless controller") || joystickName.ToLower().Contains("xbox bluetooth gamepad"))
             {
                 return "XBOX WIRELESS";
             }
