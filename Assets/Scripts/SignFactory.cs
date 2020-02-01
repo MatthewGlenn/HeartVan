@@ -14,7 +14,6 @@ public class SignFactory : MonoBehaviour
         // Instantiate at position (0, 0, 0) and zero rotation.
         GameObject sign = Instantiate(signPrefab, new Vector3(0, 0, signZstart), Quaternion.identity);
         SignController sc = sign.GetComponent<SignController>();
-        sc.setLeft();
     }
 
     // Update is called once per frame
