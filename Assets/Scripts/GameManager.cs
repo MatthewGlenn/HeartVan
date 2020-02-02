@@ -5,28 +5,38 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
 	// Reference to the Prefab. Drag a Prefab into this field in the Inspector.
-    public GameObject signPrefab;
-    public float signZstart = 100f;
+    public GameObject sign;
+    public Vector3 signSpawnPosition;
 
     private float deltaTime = 0f;
+
+    private bool started = false;
 
     SignController sc;
 
     // Start is called before the first frame update
     void Start()
     {
-        // Instantiate at position (0, 0, 0) and zero rotation.
-        GameObject sign = Instantiate(signPrefab, new Vector3(0, 0, signZstart), Quaternion.identity);
         sc = sign.GetComponent<SignController>();
+        Debug.Log(sc);
     }
 
     // Update is called once per frame
     void Update()
     {
-        deltaTime += Time.deltaTime;
-        if (deltaTime > 7f) {
-        	sc.next();
-        	deltaTime = 0f;
-        }
+    	if (started) {
+            Debug.Log(deltaTime);
+	        deltaTime += Time.deltaTime;
+	        if (deltaTime > 7f) {
+	        	sc.next();
+	        	deltaTime = 0f;
+        	}
+    	}
+    }
+
+    public void startGame()
+    {
+        Debug.Log("hit startGame");
+    	started = true;
     }
 }

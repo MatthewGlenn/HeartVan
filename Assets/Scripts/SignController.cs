@@ -48,6 +48,10 @@ public class SignController : MonoBehaviour
     private Queue lastKeys;
     private int lastKeysMaxCount = 10;
 
+    private Vector3 startPosition;
+
+    public float speed = -100;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -151,9 +155,13 @@ public class SignController : MonoBehaviour
 
     	this.randomize();
 
-    	rb = GetComponent<Rigidbody>();
-    	rb.velocity = new Vector3(0, 0, -10);
+    	startPosition = transform.position;
+    }
 
+    public void startMoving()
+    {
+    	rb = GetComponent<Rigidbody>();
+    	rb.velocity = new Vector3(0, 0, speed);
     }
 
     // Update is called once per frame
@@ -167,8 +175,8 @@ public class SignController : MonoBehaviour
     	this.flip();
 
     	this.randomize();
-
-    	transform.position = new Vector3(0, 0, 50);
+    	Debug.Log("here");
+    	transform.position = startPosition;
     }
 
     private void randomize()
