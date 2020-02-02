@@ -608,8 +608,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Player 2 will secretly choose which emoji their reaction would be during
-    the glowing section using left, up, and right on the d-pad or Arrow Keys on the
-    Keyboard.
+    the glowing section using left, up, and right arrow keys on the keyboard.
 --- !u!222 &840494067
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1070,7 +1069,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Player 1 must decide how their lost friend would react by driving their
-    van under the correct emoji using WASD or Arrow Keys.
+    van under the correct emoji using WAD on the keyboard
 --- !u!222 &1907018075
 CanvasRenderer:
   m_ObjectHideFlags: 0
