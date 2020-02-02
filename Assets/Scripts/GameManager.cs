@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         sc = sign.GetComponent<SignController>();
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     // Update is called once per frame
