@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -12,8 +14,13 @@ public class GameManager : MonoBehaviour
     public AudioManager audioManager;
     public Text responseText;
 
+    public SceneHandler sceneHandler;
     private string playerTwoValue = "";
-
+    //The Number of Points required to Win or Lose
+    public int pointsToComplete = 4;
+    //The Points the Player has scored
+    private int playersPoints = 0;
+    
     SignController sc;
 
     // Start is called before the first frame update
@@ -47,9 +54,52 @@ public class GameManager : MonoBehaviour
         //Check the gates
         if (playerController.OneInput.Equals(playerTwoValue))
         {
-            audioManager.Success();
+            Success();
         } else {
-            audioManager.Failure();
+            Failure();
         }
+    }
+
+    private void Success()
+    {
+        AddPoints(Grade.Success);
+        audioManager.Success();
+    }
+
+    private void Failure()
+    {
+        AddPoints(Grade.Failure);
+        audioManager.Failure();
+    }
+
+    private enum Grade
+    {
+        Failure = -1,
+        Success = 1
+    }
+    private void AddPoints(Grade points)
+    {
+        Debug.Log("Points " + points);
+        playersPoints += (int) points;
+        Debug.Log("Points Value " + playersPoints);
+        Debug.Log("Points To Complete " + pointsToComplete);
+        if (pointsToComplete == playersPoints)
+        {
+            Win();
+        }else if (pointsToComplete == Math.Abs(playersPoints)) {
+            Lose();
+        }
+    }
+
+    private void Win()
+    {
+        Debug.Log("Win Scene");
+        sceneHandler.LoadNextScene();
+    }
+
+    private void Lose()
+    {
+        Debug.Log("Lose Scene");
+        sceneHandler.LoadScene("Credits");
     }
 }
