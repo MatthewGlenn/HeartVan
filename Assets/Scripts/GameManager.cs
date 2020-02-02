@@ -141,7 +141,7 @@ public class GameManager : MonoBehaviour
     private void Win()
     {
         Debug.Log("Win Scene");
-        audioManager.StartWin();
+        //audioManager.StartWin();
         sceneHandler.LoadNextScene();
     }
 

@@ -101,12 +101,12 @@ public class AudioManager : MonoBehaviour
     {
         if (currentMusicSound != null)
         {
+            if(currentMusicSound.name != "track5")
             Stop(currentMusicSound);
+            currentMusicSound = GetSound("track5");
+            MakeSource(currentMusicSound);
+            currentMusicSound.source.Play();
         }
-        
-        currentMusicSound = GetSound("track5");
-        MakeSource(currentMusicSound);
-        currentMusicSound.source.Play();
     }
 
     public void Success()
