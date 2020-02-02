@@ -43,12 +43,12 @@ public class PlayerController : MonoBehaviour
     private bool player2CanSelect = false;
     private Collider selectedCollider;
 
-    private enum Lanes {
-        Left = -2,
-        Middle = 0,
-        Right = 2
+    public static class Lanes
+    {
+        public const float Left = -20.3f;
+        public const float Middle = 3.1f;
+        public const float Right = 26.3f;
     }
-
 
     // Start is called before the first frame update
     void Start()
