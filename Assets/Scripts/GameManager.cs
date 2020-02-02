@@ -24,12 +24,6 @@ public class GameManager : MonoBehaviour
         playerController = van.GetComponent<PlayerController>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void resetLoop()
     {
         sc.next();

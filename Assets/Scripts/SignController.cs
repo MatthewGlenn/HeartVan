@@ -52,6 +52,8 @@ public class SignController : MonoBehaviour
 
     public float speed = -100;
 
+    //private int key = 32;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -93,7 +95,7 @@ public class SignController : MonoBehaviour
 				{"c_jack_o_lantern", new Choice("c_police", "f_blank_eyes", "f_shout")},
 				{"c_king", new Choice("c_queen", "f_kiss", "c_leo")},
 				{"c_leo", new Choice("f_dead_eyes", "c_wolf", "f_smile_sweat")},
-				{"c_lesbian_kiss", new Choice("c_lips", "f_wide_smile", "c_rocket")},
+				{"c_lesbian_kiss", new Choice("c_lips", "f_smile_wide", "c_rocket")},
 				{"c_lips", new Choice("f_kiss_heart", "f_upside_down", "c_taco")},
 				{"c_middle_finger", new Choice("f_shocked_hands", "c_police", "f_content")},
 				{"c_monkey", new Choice("f_asleep", "f_smile_teeth", "f_worried")},
@@ -116,10 +118,10 @@ public class SignController : MonoBehaviour
 				{"c_rooster", new Choice("c_burger", "f_shocked_blush", "c_rocket")},
 				{"c_rowing", new Choice("f_asleep", "f_smoke_nose", "c_taxi")},
 				{"c_saki", new Choice("c_wine", "f_blush", "c_green_tea")},
-				{"c_salad", new Choice("f_tounge_side", "c_rabbit", "c_burger")},
+				{"c_salad", new Choice("f_tongue_side", "c_rabbit", "c_burger")},
 				{"c_shrimp", new Choice("c_sun_ocean", "f_disgusted", "f_heart_eyes")},
 				{"c_smoking", new Choice("f_no_mouth", "f_smile", "f_dead_eyes")},
-				{"c_sun_mountain", new Choice("c_goat", "c_king", "f_smoke_nose")},
+				{"c_sun_mountains", new Choice("c_goat", "c_king", "f_smoke_nose")},
 				{"c_sun_ocean", new Choice("f_smile_eyes", "c_island", "c_shrimp")},
 				{"c_surfing", new Choice("f_asleep", "f_wink", "c_bikini")},
 				{"c_sushi", new Choice("c_green_tea", "f_shades", "f_disgusted")},
@@ -189,11 +191,15 @@ public class SignController : MonoBehaviour
     		choiceSprite = keys[rand.Next(0, keys.Length)];
     	} while (lastKeys.Contains(choiceSprite) == true);
 
+    	//Debug.Log(key);
+    	//choiceSprite = keys[key++];
+
     	lastKeys.Enqueue(choiceSprite);
     	if (lastKeys.Count > lastKeysMaxCount) {
     		lastKeys.Dequeue();
     	}
 
+    	//Debug.Log(choiceSprite);
     	leftSignSR.sprite = sprites[spriteIndex[choiceSprite]];
     	rightSignSR.sprite = sprites[spriteIndex[choiceSprite]];
     	upChoiceSR.sprite = sprites[spriteIndex[choices[choiceSprite].left]];
