@@ -16,6 +16,7 @@ public class AudioManager : MonoBehaviour
     public static AudioManager instance;
 
     public string currMusicName;
+    public int winNumber;
 
     enum SoundType { FX, Music, Both };
 
@@ -54,23 +55,18 @@ public class AudioManager : MonoBehaviour
     {
         Debug.Log("Success called");
         PlayFX("success");
-        StartCoroutine(PlayNextTrack());
+        if (currTrackNumber < 5) { StartCoroutine(PlayNextTrack()); }
     }
 
     public void Failure()
     {
         Debug.Log("Failure called");
-        StartCoroutine(PlayError());
-    }
-
-    private void InitializeMusicSounds()
-    {
-   
+        if (currTrackNumber < 5) { StartCoroutine(PlayError()); }
     }
 
     private IEnumerator PlayError()
     {
-        PlayFX("failure");
+        failureSound.source.Play();
         currentMusicSound.source.volume = 0;
         
         yield return new WaitForSeconds(failureSound.clip.length);
@@ -132,20 +128,20 @@ public class AudioManager : MonoBehaviour
         return false;
     }
 
-    public void SetMasterVolume(float vol)
+    private void SetMasterVolume(float vol)
     {
         mixer.SetFloat("MasterVolume", vol);
     }
-    public void SetMusicVolume(float vol)
+    private void SetMusicVolume(float vol)
     {
         mixer.SetFloat("MusicVolume", vol);
     }
-    public void SetFxVolume(float vol)
+    private void SetFxVolume(float vol)
     {
         mixer.SetFloat("SFXVolume", vol);
     }
 
-    public void SetSourceOutput(string soundName, string groupName)
+    private void SetSourceOutput(string soundName, string groupName)
     {
         AudioMixerGroup[] aga = mixer.FindMatchingGroups(groupName);
         if (aga != null)
@@ -182,7 +178,7 @@ public class AudioManager : MonoBehaviour
         return;
     }*/
 
-    public void SceneEnd()
+    private void SceneEnd()
     {
         foreach (Sound s in SFXSounds)
         {
@@ -197,7 +193,7 @@ public class AudioManager : MonoBehaviour
         return;
     }
 
-    public void LoadMusic(string sceneName)
+    private void LoadMusic(string sceneName)
     {
         Sound sound = GetSound(sceneName);
         sound.clip.LoadAudioData();
