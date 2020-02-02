@@ -11,7 +11,10 @@ public class PlayerController : MonoBehaviour
     public float timeToDriftToCenter = 4f;
 
     public GameManager gameManager;
-    
+
+    public Material selectedMaterial; //Used to update the selection area color
+    public Material selectionAreaMaterial; //Original material for selection area
+
     private Transform target;
     private Vector3 movementVector;
     public float speed = 1.0f;
@@ -29,7 +32,9 @@ public class PlayerController : MonoBehaviour
 
     private CharacterController characterController;
     public int joystickNumber;
-    
+
+    private bool player2CanSelect; //Updates state if player 2 is in selection window
+    private Collider selectionArea;
 
     private enum Lanes {
         Left = -2,
@@ -45,6 +50,8 @@ public class PlayerController : MonoBehaviour
         
         ControllerConnected();
         ControllerConnected();
+
+        player2CanSelect = false;
     }
 
     // Update is called once per frame
@@ -109,19 +116,35 @@ public class PlayerController : MonoBehaviour
             TwoInput = "up";
             //Debug.Log("I got up!");
         }
+
+        if(player2CanSelect & (IsUp || IsRight || IsLeft))
+        {
+            //selectionArea.GetComponent<Renderer>().material.color = Color.red;
+            selectionArea.GetComponent<MeshRenderer>().material = selectedMaterial;
+        }
+
         resetInput();
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.name == "SelectionArea")
+        {
+            selectionArea = other;
+            player2CanSelect = true;
             gameManager.enteredInputArea();
+        }
+            
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.name == "SelectionArea")
+        {
+            selectionArea = other;
+            player2CanSelect = false;
             gameManager.leftInputArea();
+        }
     }
 
     public void reset() {
