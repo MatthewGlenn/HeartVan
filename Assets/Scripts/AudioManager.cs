@@ -7,6 +7,7 @@ public class AudioManager : MonoBehaviour
 {
     public AudioSource fxSource;
     public AudioMixer mixer;
+    //public GameManager gm;
 
     public float fadeTimeDefault;
 
@@ -47,7 +48,8 @@ public class AudioManager : MonoBehaviour
 
     public void Success()
     {
-        
+        PlayFX("success");
+        PlayNextTrack();
     }
 
     public void Failure()
@@ -55,12 +57,12 @@ public class AudioManager : MonoBehaviour
         
     }
 
-    public void InitializeMusicSounds()
+    private void InitializeMusicSounds()
     {
    
     }
 
-    public IEnumerator PlayNextTrack()
+    private IEnumerator PlayNextTrack()
     {
         Debug.LogWarning("playing next track");
         if (nextMusicSound == null) { yield break;} 
@@ -73,6 +75,8 @@ public class AudioManager : MonoBehaviour
         //subtracting extra to try to start transition a bit early
         yield return new WaitForSeconds(currentMusicSound.clip.length - currentMusicSound.source.time - (fadeTimeDefault/2));
 
+        FindObjectOfType<GameManager>().resetLoop();
+        
         StartCoroutine(FadeIn(nextMusicSound.source, fadeTimeDefault, nextMusicSound.volume));
         StartCoroutine(FadeOut(currentMusicSound.source, fadeTimeDefault));
 
