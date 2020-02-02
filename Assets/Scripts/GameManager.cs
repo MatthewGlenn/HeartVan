@@ -100,7 +100,7 @@ public class GameManager : MonoBehaviour
     private void Win()
     {
         Debug.Log("Win Scene");
-        audioManager.StartCredits();
+        audioManager.StartWin();
         sceneHandler.LoadNextScene();
     }
 
