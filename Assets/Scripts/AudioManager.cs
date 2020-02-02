@@ -114,7 +114,7 @@ public class AudioManager : MonoBehaviour
     {
         failureSound.source.Play();
         currentMusicSound.source.volume = 0;
-        currentMusicSound.source.Stop();
+        //currentMusicSound.source.Stop();
 
         if (currTrackNumber == 1)
         { 
@@ -137,7 +137,9 @@ public class AudioManager : MonoBehaviour
         StartCoroutine(FadeIn(currentMusicSound.source, fadeTimeDefault));
         nextMusicSound = GetSound("track" + (currTrackNumber + 1));
         MakeSource(nextMusicSound);
-
+        
+        Debug.Log("end of failure - current music: " + currentMusicSound.name);
+        Debug.Log("end of failure - next music: " + nextMusicSound.name);
     }
 
     private IEnumerator PlayNextTrack()
