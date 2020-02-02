@@ -3979,7 +3979,7 @@ TextureImporter:
     second: emoji_1324
   - first:
       213: -5838426771965143334
-    second: f_tounge_out
+    second: f_tongue_out
   - first:
       213: -7638814060828452759
     second: emoji_1326
@@ -4108,7 +4108,7 @@ TextureImporter:
     second: emoji_1367
   - first:
       213: 3031258337326538090
-    second: f_tounge_out_wink
+    second: f_tongue_out_wink
   - first:
       213: -7806825718977069732
     second: emoji_1369
@@ -33476,7 +33476,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: f_tounge_out
+      name: f_tongue_out
       rect:
         serializedVersion: 2
         x: 4480
@@ -34379,7 +34379,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: f_tounge_out_wink
+      name: f_tongue_out_wink
       rect:
         serializedVersion: 2
         x: 4480
