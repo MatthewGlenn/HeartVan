@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
 
     public static bool IsLeft, IsRight, IsUp;
 
-    public string OneInput = "";
+    public string OneInput = "IsUp";
     public string TwoInput = "";
 
     public enum ControllerTypeConnected { XboxW = 1, XboxWL = 2, Playstation = 3, Other = 4}
@@ -101,6 +101,10 @@ public class PlayerController : MonoBehaviour
             TwoInput = "up";
             //Debug.Log("I got up!");
         }
+    }
+
+    public void reset() {
+        TwoInput = "";
     }
 
     void resetInput() {
