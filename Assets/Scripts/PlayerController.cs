@@ -51,13 +51,19 @@ public class PlayerController : MonoBehaviour
         float movement = Input.GetAxis("Horizontal") * Time.fixedDeltaTime * sidewaysForce;
         
         //Debug.Log(controllerTypeConnected);
-        if(controller == 1)
+        if(controller == 1) {
             checkInputXboxW();
-        else if(controller == 2)
+        }
+        else if(controller == 2) {
             checkInputXboxWL();
+        }
         else if(controller == 3) {
             checkInputPS();
         }
+        else {
+            checkInputKeyBoardPlayer1();
+        }
+        
 
         if(IsLeft) {
             dummyMovement("left");
@@ -85,7 +91,7 @@ public class PlayerController : MonoBehaviour
         //     checkInputPS();
         // }
 
-        checkInputKeyBoard();
+        checkInputKeyBoardPlayer2();
 
         if(IsLeft) {
             TwoInput = "left";
@@ -182,7 +188,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    void checkInputKeyBoard() {
+    void checkInputKeyBoardPlayer2() {
         resetInput();
         if (Input.GetKey(KeyCode.UpArrow))
             IsUp = true;
@@ -190,7 +196,16 @@ public class PlayerController : MonoBehaviour
             IsLeft = true;
         if (Input.GetKey(KeyCode.RightArrow))
             IsRight = true;
-        
+    }
+
+    void checkInputKeyBoardPlayer1() {
+        resetInput();
+        if (Input.GetKey(KeyCode.W))
+            IsUp = true;
+        if (Input.GetKey(KeyCode.A))
+            IsLeft = true;
+        if (Input.GetKey(KeyCode.D))
+            IsRight = true;
     }
 
     private void ControllerConnected()
