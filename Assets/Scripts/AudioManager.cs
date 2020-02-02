@@ -52,12 +52,14 @@ public class AudioManager : MonoBehaviour
 
     public IEnumerator PlayNextTrack()
     {
+        Debug.LogWarning("playing next track");
         if (nextMusicSound == null) { yield break;} 
         if (!nextMusicSound.source.isPlaying){}
         //Debug.LogWarning("nextS: " + nextMusicSound.name);
 
         //yield return new WaitForSeconds(currentS.source.clip.samples - currentS.source.timeSamples);
 
+        nextMusicSound.source.time = currentMusicSound.source.time;
         //subtracting extra to try to start transition a bit early
         yield return new WaitForSeconds(currentMusicSound.clip.length - currentMusicSound.source.time - (fadeTimeDefault/2));
 
@@ -83,7 +85,6 @@ public class AudioManager : MonoBehaviour
         {
             PlayMusic(nextMusicSound, currentMusicSound.source.time);
         }
-        
     }
 
     public bool IsMusicPlaying()

@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fxSource: {fileID: 2086853189477164793}
   mixer: {fileID: 24100000, guid: 22a081be117774d84a95e66c5d40434b, type: 2}
-  fadeTimeDefault: 0
+  fadeTimeDefault: 0.4
   MusicSounds:
   - name: track1
     clip: {fileID: 8300000, guid: f2b9ab9ca17244ccbab17e168fdce6bc, type: 3}
