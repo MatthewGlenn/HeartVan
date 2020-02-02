@@ -44,13 +44,15 @@ public class AudioManager : MonoBehaviour
         t2.source.Play();
     }
 
-    public IEnumerator playNextTrack()
+    public IEnumerator PlayNextTrack()
     {
-        Sound currentS = GetSound(currMusicName, SoundType.Music);
+        Sound currentS = GetSound("track" + currTrackNumber , SoundType.Music);
         Sound nextS = GetSound("track" + (currTrackNumber + 1), SoundType.Music);
 
         Debug.LogWarning("nextS: " + nextS.name);
-
+        
+        if (nextS == null) { yield break;} 
+        
         MakeSource(nextS);
 
         //yield return new WaitForSeconds(currentS.source.clip.samples - currentS.source.timeSamples);
@@ -62,32 +64,17 @@ public class AudioManager : MonoBehaviour
 
         currTrackNumber = currTrackNumber + 1;
 
+        yield return new WaitForSeconds(2);
+
         Sound newTrackSound = GetSound("track" + currTrackNumber);
-        //TODO: need to write method for playing sound at timecode;
-    }/**/
 
-    /*public void playNextTrack()
-    {
-        Sound currentS = GetSound(currMusicName, SoundType.Music);
-        Sound nextS = GetSound("track" + (currTrackNumber + 1), SoundType.Music);
+        if (newTrackSound != null)
+        {
+            PlayMusic(newTrackSound.name, nextS.source.time);
+        }
 
-        Debug.LogWarning("nextS: " + nextS.name);
-
-        MakeSource(nextS);
-
-        //yield return new WaitForSeconds(currentS.source.clip.samples - currentS.source.timeSamples);
-
-        nextS.source.PlayDelayed(currentS.clip.length - currentS.source.time);
-
-        Debug.Log("delay: " + (currentS.clip.length - currentS.source.time));
-
-        //currentS.source.Stop();
-        //nextS.source.Play();
-
-        //currentS.source.clip.UnloadAudioData();
-
-       currTrackNumber = currTrackNumber + 1;
-    }*/
+        StartCoroutine(PlayNextTrack());
+    }
 
     public bool IsMusicPlaying()
     {
@@ -194,6 +181,7 @@ public class AudioManager : MonoBehaviour
         Sound currentS = GetSound(s);
         if (currentS.source == null) { MakeSource(currentS); }
         currentS.source.Play();
+        Debug.Log("Playing audio: " + s);
     }
 
     public void PlayMusic(string s)
@@ -201,15 +189,16 @@ public class AudioManager : MonoBehaviour
         Sound currentS = GetSound(s, SoundType.Music);
         if (currentS.source == null) { MakeSource(currentS); }
         currentS.source.Play();
-        currMusicName = s;
+        Debug.Log("Playing music: " + s);
     }
 
-    public void PlayMusicAtTime(string s, float )
+    private void PlayMusic(string s, float playTime)
     {
         Sound currentS = GetSound(s, SoundType.Music);
         if (currentS.source == null) { MakeSource(currentS); }
+        currentS.source.time = playTime;
         currentS.source.Play();
-        currMusicName = s;
+        Debug.Log("Playing music: " + s);
     }
 
     public void Stop(string name)
@@ -292,7 +281,8 @@ public class AudioManager : MonoBehaviour
         float startVolume = audioSource.volume;
         while (audioSource.volume > 0)
         {
-            audioSource.volume -= startVolume * Time.deltaTime / FadeTime;
+            if (FadeTime == 0f) { audioSource.volume = 0; }
+            else{ audioSource.volume -= startVolume * Time.deltaTime / FadeTime; }
             yield return null;
         }
         audioSource.Stop();
@@ -307,7 +297,8 @@ public class AudioManager : MonoBehaviour
         audioSource.volume = 0f;
         while (audioSource.volume < maxVol)
         {
-            audioSource.volume += Time.deltaTime / FadeTime;
+            if (FadeTime == 0f) { audioSource.volume = maxVol; }
+            else{ audioSource.volume += Time.deltaTime / FadeTime; }
             yield return null;
         }
     }

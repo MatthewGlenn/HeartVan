@@ -11,8 +11,14 @@ public class GameManager : MonoBehaviour
     {
         //am.PlayMusic("track1");
         am.Initialize();
-        StartCoroutine(am.playNextTrack());
-        //am.playNextTrack();
+        StartCoroutine(am.PlayNextTrack());
+        //playNext();
+    }
+
+    IEnumerator playNext()
+    {
+        yield return new WaitForSeconds(5);
+        StartCoroutine(am.PlayNextTrack());
     }
 
 }

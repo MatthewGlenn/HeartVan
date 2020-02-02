@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fxSource: {fileID: 2086853189477164793}
   mixer: {fileID: 24100000, guid: 22a081be117774d84a95e66c5d40434b, type: 2}
-  fadeTimeDefault: 1
+  fadeTimeDefault: 0
   MusicSounds:
   - name: track1
     clip: {fileID: 8300000, guid: f2b9ab9ca17244ccbab17e168fdce6bc, type: 3}
@@ -61,6 +61,17 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: track2
     clip: {fileID: 8300000, guid: ebbbb42b0518e46ba92ed198d2c6458d, type: 3}
+    output: {fileID: -3719356908560596754, guid: 22a081be117774d84a95e66c5d40434b,
+      type: 2}
+    volume: 1
+    pitch: 1
+    loop: 1
+    playonawake: 0
+    ignoreListenerPause: 0
+    originalVolume: 0
+    source: {fileID: 0}
+  - name: track3
+    clip: {fileID: 8300000, guid: 11d04758ff0fe469389fa4da93583a89, type: 3}
     output: {fileID: -3719356908560596754, guid: 22a081be117774d84a95e66c5d40434b,
       type: 2}
     volume: 1
