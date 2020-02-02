@@ -17,6 +17,8 @@ public class SignController : MonoBehaviour
 
 	private IDictionary<string, int> spriteIndex;
 
+	private Rigidbody rb;
+
 	public struct Choice
 	{
 		public string left;
@@ -45,6 +47,10 @@ public class SignController : MonoBehaviour
 
     private Queue lastKeys;
     private int lastKeysMaxCount = 10;
+
+    private Vector3 startPosition;
+
+    public float speed = -100;
 
     // Start is called before the first frame update
     void Start()
@@ -148,6 +154,14 @@ public class SignController : MonoBehaviour
     	lastKeys = new Queue();
 
     	this.randomize();
+
+    	startPosition = transform.position;
+    }
+
+    public void startMoving()
+    {
+    	rb = GetComponent<Rigidbody>();
+    	rb.velocity = new Vector3(0, 0, speed);
     }
 
     // Update is called once per frame
@@ -161,6 +175,8 @@ public class SignController : MonoBehaviour
     	this.flip();
 
     	this.randomize();
+    	Debug.Log("here");
+    	transform.position = startPosition;
     }
 
     private void randomize()

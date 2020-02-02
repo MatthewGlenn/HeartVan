@@ -60,4 +60,4 @@ crashlytics-build.properties
 
 #OS
 .DS_Store
-
+.idea
