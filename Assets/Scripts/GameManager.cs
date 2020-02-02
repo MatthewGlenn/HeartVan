@@ -60,23 +60,28 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    //When Succeeding past a gate, add success points and play success music
     private void Success()
     {
         AddPoints(Grade.Success);
         audioManager.Success();
     }
 
+    //When Failing a gate, add failure points and play failure audio
     private void Failure()
     {
         AddPoints(Grade.Failure);
         audioManager.Failure();
     }
 
+    //Enum with a Success or Fail Grade
     private enum Grade
     {
         Failure = -1,
         Success = 1
     }
+    
+    //Add Points with the Grade enum
     private void AddPoints(Grade points)
     {
         Debug.Log("Points " + points);
@@ -90,16 +95,20 @@ public class GameManager : MonoBehaviour
             Lose();
         }
     }
-
+    
+    //Present Win State
     private void Win()
     {
         Debug.Log("Win Scene");
+        audioManager.StartCredits();
         sceneHandler.LoadNextScene();
     }
 
+    //Present Lose State
     private void Lose()
     {
         Debug.Log("Lose Scene");
+        audioManager.StartCredits();
         sceneHandler.LoadScene("Credits");
     }
 }
