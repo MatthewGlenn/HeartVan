@@ -103,6 +103,17 @@ MonoBehaviour:
     ignoreListenerPause: 0
     originalVolume: 0
     source: {fileID: 0}
+  - name: title_loop
+    clip: {fileID: 8300000, guid: 712963e2ad3ca48899a77c0b86093ea8, type: 3}
+    output: {fileID: -3719356908560596754, guid: 22a081be117774d84a95e66c5d40434b,
+      type: 2}
+    volume: 1
+    pitch: 1
+    loop: 1
+    playonawake: 0
+    ignoreListenerPause: 0
+    originalVolume: 0
+    source: {fileID: 0}
   SFXSounds:
   - name: success
     clip: {fileID: 8300000, guid: 784220e700ac645f381c09b0674f10f1, type: 3}
@@ -127,6 +138,7 @@ MonoBehaviour:
     originalVolume: 0
     source: {fileID: 0}
   currMusicName: 
+  winNumber: 0
 --- !u!82 &2086853189477164793
 AudioSource:
   m_ObjectHideFlags: 0
