@@ -15,6 +15,7 @@ public class FlavorText : MonoBehaviour
     public GameObject step6;
     public GameObject step7;
     public GameObject step8;
+    public AudioManager am;
 
     float timer;
     int step;
@@ -24,6 +25,7 @@ public class FlavorText : MonoBehaviour
     {
         timer = 0;
         step = 1;
+        am = FindObjectOfType<AudioManager>();
     }
 
     // Update is called once per frame
@@ -82,6 +84,7 @@ public class FlavorText : MonoBehaviour
         if(step == 9)
         {
             sceneHandler.LoadNextScene();
+            am.StartGame();
         }
     }
 }

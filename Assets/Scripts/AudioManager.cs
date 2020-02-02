@@ -44,6 +44,7 @@ public class AudioManager : MonoBehaviour
         }
         if (SceneManager.GetActiveScene().name == "Game")
         {
+            currentMusicSound = GetSound("track1");
             StartGame();
         }
     }
@@ -161,26 +162,10 @@ public class AudioManager : MonoBehaviour
     {
         mixer.SetFloat("MusicVolume", vol);
     }
+
     private void SetFxVolume(float vol)
     {
         mixer.SetFloat("SFXVolume", vol);
-    }
-
-    private void SetSourceOutput(string soundName, string groupName)
-    {
-        AudioMixerGroup[] aga = mixer.FindMatchingGroups(groupName);
-        if (aga != null)
-        {
-            AudioMixerGroup ag = Array.Find(aga, group => group.name == groupName);
-            if (ag != null)
-            {
-                GetSource(GetSound(soundName)).outputAudioMixerGroup = ag;
-                return;
-            }
-        }
-        //Debug.LogWarning("could not find AudioMixerGroup name: " + groupName);
-
-        return;
     }
 
     /*public void SceneTransition(string nextSceneName)
