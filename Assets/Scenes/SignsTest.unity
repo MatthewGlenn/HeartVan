@@ -166,7 +166,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   signPrefab: {fileID: 2285696657562955316, guid: 8849a671d5d834eb5a9d80306a7c458a,
     type: 3}
-  signZstart: 100
+  signZstart: 30
+  deltaTime: 0
 --- !u!1 &589642845
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,6 +392,8 @@ MonoBehaviour:
   rb: {fileID: 1581819481}
   force: 1000
   sidewaysForce: 500
+  road: {fileID: 0}
+  timeToDriftToCenter: 4
 --- !u!1 &1595755579
 GameObject:
   m_ObjectHideFlags: 0

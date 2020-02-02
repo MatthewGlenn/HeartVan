@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public Rigidbody rb;
+    public float force = 200f;
+    public float sidewaysForce = 50f;
+    public Transform road;
+    public float timeToDriftToCenter = 4f;
+    
+    private Transform target;
     private Vector3 movementVector;
     public float speed = 1.0f;
-    
+
     public static bool IsLeft, IsRight, IsUp;
     public enum ControllerTypeConnected { XboxW = 1, XboxWL = 2, Playstation = 3, Other = 4}
     
@@ -14,10 +21,19 @@ public class PlayerController : MonoBehaviour
     public static int controller = 0;
 
     private CharacterController characterController;
+    public int joystickNumber;
+    
+
+    private enum Lanes {
+        Left = -2,
+        Middle = 0,
+        Right = 2
+    }
 
     // Start is called before the first frame update
     void Start()
     {
+        
         characterController = GetComponent<CharacterController>();
         ControllerConnected();
 
@@ -26,6 +42,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        float movement = Input.GetAxis("Horizontal") * Time.fixedDeltaTime * sidewaysForce;
         
         //Debug.Log(controllerTypeConnected);
         if(controller == 1)
@@ -36,31 +53,21 @@ public class PlayerController : MonoBehaviour
             checkInputPS();
         }
 
-        if(PlayerController.IsLeft) {
-            var left = GameObject.Find("Position left");
-            //characterController.transform
-            //moveForward(left);
-            Debug.Log("I got left!");
+        if(IsLeft) {
+            dummyMovement("left");
+            //Debug.Log("I got left!");
         }
 
-        if(PlayerController.IsRight) {
-            var right = GameObject.Find("Position right");
-            Debug.Log("I got right!");
+        if(IsRight) {
+            dummyMovement("right");
+            //Debug.Log("I got right!");
         }
         
-        if(PlayerController.IsUp) {
-            var middle = GameObject.Find("Position middle");
-            Debug.Log("I got up!");
+        if(IsUp) {
+            dummyMovement("up");
+            //Debug.Log("I got up!");
         }
     }
-
-    // void moveForward (GameObject object) {
-        
-    //     transform.position = Vector3.MoveTowards(transform.position, object.destination, Time.deltaTime * speed);
-    //     if(Vector3.Distance(transform.position, object.destination) < .001f) {
-    //         Debug.Log("I got there!");
-    //     }
-    // }
 
     void resetInput() {
         //Reset this every frame
@@ -141,17 +148,17 @@ public class PlayerController : MonoBehaviour
         if (getControllerType() == "XBOX WIRELESS")
         {
             controller = (int)ControllerTypeConnected.XboxWL;
-            UnityEngine.Debug.Log("You connected an xbox wireless controller!");
+            //UnityEngine.Debug.Log("You connected an xbox wireless controller!");
         }
         else if (getControllerType() == "XBOX WIRED")
         {
             controller = (int)ControllerTypeConnected.XboxW;
-            UnityEngine.Debug.Log("You connected a xbox wired controller!");
+            //UnityEngine.Debug.Log("You connected a xbox wired controller!");
         }
         else if (getControllerType() == "PS")
         {
             controller = (int)ControllerTypeConnected.Playstation;
-            UnityEngine.Debug.Log("You connected a playstation controller!");
+            //UnityEngine.Debug.Log("You connected a playstation controller!");
         }
         else
         {
@@ -166,7 +173,7 @@ public class PlayerController : MonoBehaviour
  
         foreach (string joystickName in joystickNames)
         {
-            Debug.Log(joystickName);
+            //Debug.Log(joystickName);
             if (joystickName.ToLower().Contains("xbox wireless controller") || joystickName.ToLower().Contains("xbox bluetooth gamepad"))
             {
                 return "XBOX WIRELESS";
@@ -191,4 +198,44 @@ public class PlayerController : MonoBehaviour
         return "OTHER";
     }
 
+    void moveToLane(Lanes lane){
+        
+        
+    //     dummyMovement();
+    //     //TODO:Replace Dummy with animation controller calls in the switch statement
+    //     switch (lane)
+    //     {
+    //         case Lanes.Left:
+    //             Debug.Log("Move "+lane);
+    //             break;
+    //         case Lanes.Middle:
+    //             Debug.Log("Move "+lane);
+    //             break;
+    //         case Lanes.Right:
+    //             Debug.Log("Move "+lane);
+    //             break;
+    //     }
+    //     driftToCenter();
+    }
+
+    private void dummyMovement(string direction)
+    {
+        var middle = GameObject.Find("Middle Position");
+        Vector3 move = Vector3.left;
+        if(direction=="left")
+            move = Vector3.left;
+        else if(direction=="up") {
+            move = Vector3.zero;
+            rb.position = middle.transform.position;
+        }
+        else if(direction=="right")
+            move = Vector3.right;
+        
+         Vector2 newPosition = rb.position + move;
+         float mapWidth = 1.5f;
+         newPosition.x = Mathf.Clamp(newPosition.x, -mapWidth, mapWidth);
+         rb.MovePosition(newPosition);
+
+
+    }
 }

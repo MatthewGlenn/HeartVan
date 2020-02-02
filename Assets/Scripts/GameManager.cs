@@ -4,21 +4,29 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public AudioManager am;
+	// Reference to the Prefab. Drag a Prefab into this field in the Inspector.
+    public GameObject signPrefab;
+    public float signZstart = 100f;
+
+    private float deltaTime = 0f;
+
+    SignController sc;
 
     // Start is called before the first frame update
     void Start()
     {
-        //am.PlayMusic("track1");
-        am.Initialize();
-        StartCoroutine(am.PlayNextTrack());
-        //playNext();
+        // Instantiate at position (0, 0, 0) and zero rotation.
+        GameObject sign = Instantiate(signPrefab, new Vector3(0, 0, signZstart), Quaternion.identity);
+        sc = sign.GetComponent<SignController>();
     }
 
-    IEnumerator playNext()
+    // Update is called once per frame
+    void Update()
     {
-        yield return new WaitForSeconds(5);
-        StartCoroutine(am.PlayNextTrack());
+        deltaTime += Time.deltaTime;
+        if (deltaTime > 7f) {
+        	sc.next();
+        	deltaTime = 0f;
+        }
     }
-
 }

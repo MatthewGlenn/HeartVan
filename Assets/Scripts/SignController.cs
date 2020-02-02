@@ -17,6 +17,8 @@ public class SignController : MonoBehaviour
 
 	private IDictionary<string, int> spriteIndex;
 
+	private Rigidbody rb;
+
 	public struct Choice
 	{
 		public string left;
@@ -32,6 +34,19 @@ public class SignController : MonoBehaviour
 	}
 
 	private IDictionary<string, Choice> choices;
+
+	private string[] keys;
+
+	private Sprite[] sprites;
+
+	private SpriteRenderer leftSignSR;
+    private SpriteRenderer rightSignSR;
+    private SpriteRenderer upChoiceSR;
+    private SpriteRenderer leftChoiceSR;
+    private SpriteRenderer rightChoiceSR;
+
+    private Queue lastKeys;
+    private int lastKeysMaxCount = 10;
 
     // Start is called before the first frame update
     void Start()
@@ -116,30 +131,28 @@ public class SignController : MonoBehaviour
 				{"c_ying_yang", new Choice("f_angel", "c_cat", "f_devil")}
     		};
 
-    	string[] keys = choices.Keys.ToArray();
-
-    	System.Random rand = new System.Random();
-    	string choiceSprite = keys[rand.Next(0, keys.Length)];
+    	keys = choices.Keys.ToArray();
 
     	spriteIndex = new Dictionary<string, int>();
-    	Sprite[] sprites = Resources.LoadAll<Sprite>("emoji");
+    	sprites = Resources.LoadAll<Sprite>("emoji");
 
     	for (int i = 0; i < sprites.Length; i++) {
     		spriteIndex.Add(sprites[i].name, i);
     	}
 
-    	SpriteRenderer leftSignSR = leftSignSprite.GetComponent<SpriteRenderer>();
-    	SpriteRenderer rightSignSR = rightSignSprite.GetComponent<SpriteRenderer>();
+    	leftSignSR = leftSignSprite.GetComponent<SpriteRenderer>();
+    	rightSignSR = rightSignSprite.GetComponent<SpriteRenderer>();
 
-    	SpriteRenderer upChoiceSR = leftSelectionSprite.GetComponent<SpriteRenderer>();
-    	SpriteRenderer leftChoiceSR = upSelectionSprite.GetComponent<SpriteRenderer>();
-    	SpriteRenderer rightChoiceSR = rightSelectionSprite.GetComponent<SpriteRenderer>();
+    	upChoiceSR = leftSelectionSprite.GetComponent<SpriteRenderer>();
+    	leftChoiceSR = upSelectionSprite.GetComponent<SpriteRenderer>();
+    	rightChoiceSR = rightSelectionSprite.GetComponent<SpriteRenderer>();
 
-    	leftSignSR.sprite = sprites[spriteIndex[choiceSprite]];
-    	rightSignSR.sprite = sprites[spriteIndex[choiceSprite]];
-    	upChoiceSR.sprite = sprites[spriteIndex[choices[choiceSprite].left]];
-    	leftChoiceSR.sprite = sprites[spriteIndex[choices[choiceSprite].up]];
-    	rightChoiceSR.sprite = sprites[spriteIndex[choices[choiceSprite].right]];
+    	lastKeys = new Queue();
+
+    	this.randomize();
+
+    	rb = GetComponent<Rigidbody>();
+    	rb.velocity = new Vector3(0, 0, -10);
 
     }
 
@@ -149,13 +162,55 @@ public class SignController : MonoBehaviour
         
     }
 
-    public void setLeft()
+    public void next()
+    {
+    	this.flip();
+
+    	this.randomize();
+
+    	transform.position = new Vector3(0, 0, 50);
+    }
+
+    private void randomize()
+    {
+    	System.Random rand = new System.Random();
+    	string choiceSprite;
+    	
+    	do
+    	{
+    		choiceSprite = keys[rand.Next(0, keys.Length)];
+    	} while (lastKeys.Contains(choiceSprite) == true);
+
+    	lastKeys.Enqueue(choiceSprite);
+    	if (lastKeys.Count > lastKeysMaxCount) {
+    		lastKeys.Dequeue();
+    	}
+
+    	leftSignSR.sprite = sprites[spriteIndex[choiceSprite]];
+    	rightSignSR.sprite = sprites[spriteIndex[choiceSprite]];
+    	upChoiceSR.sprite = sprites[spriteIndex[choices[choiceSprite].left]];
+    	leftChoiceSR.sprite = sprites[spriteIndex[choices[choiceSprite].up]];
+    	rightChoiceSR.sprite = sprites[spriteIndex[choices[choiceSprite].right]];
+
+
+    }
+
+    private void flip()
+    {
+    	if (leftSign.activeSelf) {
+    		this.setRight();
+    	} else {
+    		this.setLeft();
+    	}
+    }
+
+    private void setLeft()
     {
     	rightSign.SetActive(false);
     	leftSign.SetActive(true);
     }
 
-    public void setRight()
+    private void setRight()
     {
     	leftSign.SetActive(false);
     	rightSign.SetActive(true);
