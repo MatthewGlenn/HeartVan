@@ -431,6 +431,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2285696657562955315}
   - component: {fileID: 6803702181834024321}
+  - component: {fileID: 103466102227595060}
+  - component: {fileID: 9021954415501636371}
+  - component: {fileID: 6809320463899703537}
   m_Layer: 0
   m_Name: Sign
   m_TagString: Untagged
@@ -474,6 +477,51 @@ MonoBehaviour:
   leftSelectionSprite: {fileID: 2285696657003676938}
   upSelectionSprite: {fileID: 2285696657033882480}
   rightSelectionSprite: {fileID: 2285696657247182410}
+--- !u!114 &103466102227595060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2285696657562955316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b35761a06bf42d88342fb8c5fcf01d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeBetweenWaves: 10
+  spawnLocation: {x: 0, y: 0, z: 0}
+  sign: {fileID: 2285696657562955316}
+--- !u!114 &9021954415501636371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2285696657562955316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f063f4fc8650404fac27b49aa94abcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 50
+  rigidbody: {fileID: 6809320463899703537}
+--- !u!54 &6809320463899703537
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2285696657562955316}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &2285696657570173897
 GameObject:
   m_ObjectHideFlags: 0
