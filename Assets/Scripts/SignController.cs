@@ -17,6 +17,8 @@ public class SignController : MonoBehaviour
 
 	private IDictionary<string, int> spriteIndex;
 
+	private Rigidbody rb;
+
 	public struct Choice
 	{
 		public string left;
@@ -148,6 +150,10 @@ public class SignController : MonoBehaviour
     	lastKeys = new Queue();
 
     	this.randomize();
+
+    	rb = GetComponent<Rigidbody>();
+    	rb.velocity = new Vector3(0, 0, -10);
+
     }
 
     // Update is called once per frame
@@ -161,6 +167,8 @@ public class SignController : MonoBehaviour
     	this.flip();
 
     	this.randomize();
+
+    	transform.position = new Vector3(0, 0, 50);
     }
 
     private void randomize()
