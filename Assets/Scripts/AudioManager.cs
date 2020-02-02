@@ -19,6 +19,8 @@ public class AudioManager : MonoBehaviour
     enum SoundType { FX, Music, Both };
 
     private int currTrackNumber;
+    private Sound currentMusicSound;
+    private Sound nextMusicSound;
 
     private void Awake()
     {
@@ -32,48 +34,56 @@ public class AudioManager : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
 
+        currTrackNumber = 1;
+        currentMusicSound = GetSound("track1");
+        MakeSource((currentMusicSound));
+        nextMusicSound = GetSound(("track2"));
+        MakeSource((nextMusicSound));
+        nextMusicSound.source.volume = 0;
+
+        currentMusicSound.source.Play();
+        nextMusicSound.source.Play();
     }
 
-    public void Initialize()
+    public void InitializeMusicSounds()
     {
-        currTrackNumber = 1;
-        PlayMusic("track1");
-        Sound t2 = GetSound("track2");
-        MakeSource(t2);
-        t2.source.volume = 0;
-        t2.source.Play();
+   
     }
 
     public IEnumerator PlayNextTrack()
     {
-        Sound currentS = GetSound("track" + currTrackNumber , SoundType.Music);
-        Sound nextS = GetSound("track" + (currTrackNumber + 1), SoundType.Music);
-
-        Debug.LogWarning("nextS: " + nextS.name);
-        
-        if (nextS == null) { yield break;} 
-        
-        MakeSource(nextS);
+        if (nextMusicSound == null) { yield break;} 
+        if (!nextMusicSound.source.isPlaying){}
+        //Debug.LogWarning("nextS: " + nextMusicSound.name);
 
         //yield return new WaitForSeconds(currentS.source.clip.samples - currentS.source.timeSamples);
 
-        yield return new WaitForSeconds(currentS.clip.length - currentS.source.time);
+        //subtracting extra to try to start transition a bit early
+        yield return new WaitForSeconds(currentMusicSound.clip.length - currentMusicSound.source.time - (fadeTimeDefault/2));
 
-        StartCoroutine(FadeIn(nextS.source, fadeTimeDefault, nextS.volume));
-        StartCoroutine(FadeOutAndUnload(currentS, fadeTimeDefault));
+        StartCoroutine(FadeIn(nextMusicSound.source, fadeTimeDefault, nextMusicSound.volume));
+        StartCoroutine(FadeOut(currentMusicSound.source, fadeTimeDefault));
 
         currTrackNumber = currTrackNumber + 1;
 
         yield return new WaitForSeconds(2);
+        
+        //unload old audio
+        UnloadAudio(currentMusicSound);
 
-        Sound newTrackSound = GetSound("track" + currTrackNumber);
+        currentMusicSound = nextMusicSound;
 
-        if (newTrackSound != null)
+        nextMusicSound = GetSound("track" + (currTrackNumber + 1)); 
+        MakeSource(nextMusicSound);
+        nextMusicSound.source.volume = 0;
+
+        Debug.Log("current track number: "+currTrackNumber);
+        Debug.Log("track" + (currTrackNumber + 1));
+        if (nextMusicSound != null)
         {
-            PlayMusic(newTrackSound.name, nextS.source.time);
+            PlayMusic(nextMusicSound, currentMusicSound.source.time);
         }
-
-        StartCoroutine(PlayNextTrack());
+        
     }
 
     public bool IsMusicPlaying()
@@ -116,7 +126,7 @@ public class AudioManager : MonoBehaviour
         return;
     }
 
-    public void SceneTransition(string nextSceneName)
+    /*public void SceneTransition(string nextSceneName)
     {
         Sound nextS = GetSound(nextSceneName, SoundType.Music);
         Sound currentS = GetSound(currMusicName, SoundType.Music);
@@ -134,7 +144,7 @@ public class AudioManager : MonoBehaviour
         currMusicName = nextSceneName;
 
         return;
-    }
+    }*/
 
     public void SceneEnd()
     {
@@ -192,12 +202,11 @@ public class AudioManager : MonoBehaviour
         Debug.Log("Playing music: " + s);
     }
 
-    private void PlayMusic(string s, float playTime)
+    private void PlayMusic(Sound s, float playTime)
     {
-        Sound currentS = GetSound(s, SoundType.Music);
-        if (currentS.source == null) { MakeSource(currentS); }
-        currentS.source.time = playTime;
-        currentS.source.Play();
+        if (s.source == null) { MakeSource(s); }
+        s.source.time = playTime;
+        s.source.Play();
         Debug.Log("Playing music: " + s);
     }
 
@@ -303,17 +312,30 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    private void UnloadAudio(Sound s)
+    {
+        if (s.source.isPlaying)
+        {
+            s.source.Stop();
+        }
+        s.source.Stop();
+        s.source.clip.UnloadAudioData();
+        s.clip.UnloadAudioData();
+        Destroy(s.source);
+    }
+
     public IEnumerator FadeOutAndUnload(Sound sound, float FadeTime)
     {
-        AudioSource audioSource = GetSource(sound);
-        float startVolume = audioSource.volume;
-        while (audioSource.volume > 0)
+        float startVolume = sound.source.volume;
+        while (sound.source.volume > 0)
         {
-            audioSource.volume -= startVolume * (Time.deltaTime / FadeTime);
+            sound.source.volume -= startVolume * (Time.deltaTime / FadeTime);
             yield return null;
         }
-        audioSource.Stop();
-        audioSource.clip.UnloadAudioData();
+        sound.source.Stop();
+        sound.source.clip.UnloadAudioData();
+        sound.clip.UnloadAudioData();
+        Destroy(sound.source);
     }
 
     public IEnumerator FadeOutBlip(AudioSource audioSource, float FadeTime)
