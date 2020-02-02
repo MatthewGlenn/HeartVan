@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
 
     private bool started = false;
 
+    private string playerTwoValue = "";
+
     SignController sc;
 
     // Start is called before the first frame update
@@ -31,13 +33,12 @@ public class GameManager : MonoBehaviour
 	        deltaTime += Time.deltaTime;
 	        if (deltaTime > 7f) {
                 //Check the gates
-                if (playerController.OneInput == playerController.TwoInput)
+                if (playerController.OneInput.Equals(playerTwoValue))
                 {
                     audioManager.Success();
                 } else {
                     audioManager.Failure();
                 }
-                playerController.reset();
 	        	started = false;
         	}
     	}
@@ -53,5 +54,15 @@ public class GameManager : MonoBehaviour
     public void startGame()
     {
     	started = true;
+    }
+
+    public void enteredInputArea()
+    {
+        playerController.reset();
+    }
+
+    public void leftInputArea()
+    {
+        playerTwoValue = playerController.TwoInput;
     }
 }
