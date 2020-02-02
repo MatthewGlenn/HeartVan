@@ -18,6 +18,9 @@ public class PlayerController : MonoBehaviour
     public float timeToDriftToCenter = 4f;
 
     public GameManager gameManager;
+
+    public Material selectionMaterial;
+    public Material originalMaterial;
     
     private Transform target;
     private Vector3 movementVector;
@@ -36,6 +39,16 @@ public class PlayerController : MonoBehaviour
 
     private CharacterController characterController;
     public int joystickNumber;
+    
+    private bool player2CanSelect = false;
+    private Collider selectedCollider;
+
+    private enum Lanes {
+        Left = -2,
+        Middle = 0,
+        Right = 2
+    }
+
 
     // Start is called before the first frame update
     void Start()
@@ -116,6 +129,14 @@ public class PlayerController : MonoBehaviour
             TwoInput = "up";
             //Debug.Log("I got up!");
         }
+
+        if(player2CanSelect & (IsLeft||IsRight||IsUp))
+        {
+            Debug.Log("Changes");
+            selectedCollider.GetComponent<MeshRenderer>().material = selectionMaterial;
+        }
+
+
         resetInput();
     }
 
@@ -123,16 +144,28 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log(other);
         if (other.name == "SelectionArea")
+        {
+            selectedCollider = other;
+            player2CanSelect = true;
             gameManager.enteredInputArea();
+        }
+
 
         if (other.name == "Sign")
+        {
             gameManager.triggerGate();
+            selectedCollider.GetComponent<MeshRenderer>().material = originalMaterial;
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.name == "SelectionArea")
+        {
+            selectedCollider = other;
+            player2CanSelect = false;
             gameManager.leftInputArea();
+        }      
     }
 
     public void reset() {

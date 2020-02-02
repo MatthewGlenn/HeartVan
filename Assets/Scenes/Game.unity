@@ -1254,6 +1254,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a61442a3dce74a10a1927f2c865729e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1304058576
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1304058578}
+  - component: {fileID: 1304058577}
+  m_Layer: 0
+  m_Name: SceneManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1304058577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1304058576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0618f2f5a12c0404d9b965580d0e0361, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainMenuSceneIndex: 0
+--- !u!4 &1304058578
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1304058576}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 414.4417, y: 333.94247, z: -162.59349}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1359168520
 GameObject:
   m_ObjectHideFlags: 0
@@ -2153,6 +2197,16 @@ PrefabInstance:
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 1541978853}
+    - target: {fileID: -120112167180628473, guid: 054452cf8d4972244be8ba2301de0eaa,
+        type: 3}
+      propertyPath: originalMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: b0e06791f201f0642b63f5976c0b31e6, type: 2}
+    - target: {fileID: -120112167180628473, guid: 054452cf8d4972244be8ba2301de0eaa,
+        type: 3}
+      propertyPath: selectionMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 331516a88e6431248b5347ac9d144a2a, type: 2}
     - target: {fileID: 22708207500145048, guid: 054452cf8d4972244be8ba2301de0eaa,
         type: 3}
       propertyPath: m_LocalPosition.x
