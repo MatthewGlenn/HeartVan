@@ -104,7 +104,7 @@ MonoBehaviour:
     originalVolume: 0
     source: {fileID: 0}
   SFXSounds:
-  - name: sucess
+  - name: success
     clip: {fileID: 8300000, guid: 784220e700ac645f381c09b0674f10f1, type: 3}
     output: {fileID: -1568103188693699218, guid: 22a081be117774d84a95e66c5d40434b,
       type: 2}

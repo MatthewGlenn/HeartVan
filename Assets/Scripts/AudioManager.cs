@@ -22,6 +22,7 @@ public class AudioManager : MonoBehaviour
     private int currTrackNumber;
     private Sound currentMusicSound;
     private Sound nextMusicSound;
+    private Sound failureSound;
 
     private void Awake()
     {
@@ -44,22 +45,41 @@ public class AudioManager : MonoBehaviour
 
         currentMusicSound.source.Play();
         nextMusicSound.source.Play();
+
+        failureSound = GetSound(("fail"), SoundType.FX);
+        MakeSource((failureSound));
     }
 
     public void Success()
     {
+        Debug.Log("Success called");
         PlayFX("success");
-        PlayNextTrack();
+        StartCoroutine(PlayNextTrack());
     }
 
     public void Failure()
     {
-        
+        Debug.Log("Failure called");
+        StartCoroutine(PlayError());
     }
 
     private void InitializeMusicSounds()
     {
    
+    }
+
+    private IEnumerator PlayError()
+    {
+        PlayFX("failure");
+        currentMusicSound.source.volume = 0;
+        
+        yield return new WaitForSeconds(failureSound.clip.length);
+        
+        FindObjectOfType<GameManager>().resetLoop();
+        
+        currentMusicSound.source.Play();
+        StartCoroutine(FadeIn(currentMusicSound.source, fadeTimeDefault));
+
     }
 
     private IEnumerator PlayNextTrack()
@@ -75,6 +95,7 @@ public class AudioManager : MonoBehaviour
         //subtracting extra to try to start transition a bit early
         yield return new WaitForSeconds(currentMusicSound.clip.length - currentMusicSound.source.time - (fadeTimeDefault/2));
 
+        Debug.Log("yielded");
         FindObjectOfType<GameManager>().resetLoop();
         
         StartCoroutine(FadeIn(nextMusicSound.source, fadeTimeDefault, nextMusicSound.volume));
