@@ -42,7 +42,6 @@ public class PlayerController : MonoBehaviour
     {
         
         characterController = GetComponent<CharacterController>();
-        
         ControllerConnected();
         ControllerConnected();
     }
@@ -93,7 +92,16 @@ public class PlayerController : MonoBehaviour
         //     checkInputPS();
         // }
 
-        checkInputKeyBoardPlayer2();
+        
+        if(Input.GetJoystickNames().Length > 1) {
+            Debug.Log("Got here");
+            checkInputXboxW2();
+        }
+        else {
+            checkInputKeyBoardPlayer2();
+        }
+        
+
 
         if(IsLeft) {
             TwoInput = "left";
@@ -193,6 +201,28 @@ public class PlayerController : MonoBehaviour
         float y = Input.GetAxis("dpad-up1");
         float z = Input.GetAxis("dpad-right1");
         
+        string joystickString = joystickNumber.ToString();
+        Debug.Log("JoystickNumber: " + joystickString);
+
+        if(x != 0 )
+            IsLeft = true;
+        if(y != 0 ) 
+            IsUp = true;
+        if(z != 0 )
+            IsRight = true;
+
+    }
+
+    void checkInputXboxW2() {
+        resetInput();
+
+        // contollers on mac
+        float x = Input.GetAxis("dpad-left2");
+        float y = Input.GetAxis("dpad-up2");
+        float z = Input.GetAxis("dpad-right2");
+
+        Debug.Log(x);
+
         if(x != 0 )
             IsLeft = true;
         if(y != 0 ) 
