@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     public float sidewaysForce = 50f;
     public Transform road;
     public float timeToDriftToCenter = 4f;
+
+    public GameManager gameManager;
     
     private Transform target;
     private Vector3 movementVector;
@@ -108,6 +110,18 @@ public class PlayerController : MonoBehaviour
             //Debug.Log("I got up!");
         }
         resetInput();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.name == "SelectionArea")
+            gameManager.enteredInputArea();
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.name == "SelectionArea")
+            gameManager.leftInputArea();
     }
 
     public void reset() {

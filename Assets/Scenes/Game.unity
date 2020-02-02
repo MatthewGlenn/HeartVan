@@ -1455,6 +1455,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sign: {fileID: 1280614758}
   van: {fileID: 8296172668229456086}
+  playerController: {fileID: 0}
   audioManager: {fileID: 1141976832}
 --- !u!1 &1544270060
 GameObject:
@@ -1905,6 +1906,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1544270061}
     m_Modifications:
+    - target: {fileID: -120112167180628473, guid: 054452cf8d4972244be8ba2301de0eaa,
+        type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 1541978853}
     - target: {fileID: 22708207500145048, guid: 054452cf8d4972244be8ba2301de0eaa,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1985,3 +1991,16 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4983822533334782813}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &8296172668229456087
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8296172668229456086}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 25.84179, y: 28.17825, z: 62.369926}
+  m_Center: {x: 0, y: 14.089125, z: -0.0000009536743}
