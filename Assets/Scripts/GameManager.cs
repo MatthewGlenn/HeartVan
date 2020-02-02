@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 	// Reference to the Prefab. Drag a Prefab into this field in the Inspector.
     public GameObject sign;
     public GameObject van;
+    public PlayerController playerController;
     public AudioManager audioManager;
 
     private float deltaTime = 0f;
@@ -20,6 +21,7 @@ public class GameManager : MonoBehaviour
     {
         sc = sign.GetComponent<SignController>();
         audioManager = FindObjectOfType<AudioManager>();
+        playerController = van.GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
@@ -29,7 +31,13 @@ public class GameManager : MonoBehaviour
 	        deltaTime += Time.deltaTime;
 	        if (deltaTime > 7f) {
                 //Check the gates
-                
+                if (playerController.OneInput == playerController.TwoInput)
+                {
+                    audioManager.Success();
+                } else {
+                    audioManager.Failure();
+                }
+                playerController.reset();
 	        	started = false;
         	}
     	}
