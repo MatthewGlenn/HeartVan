@@ -55,7 +55,7 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     loop: 1
-    playonawake: 1
+    playonawake: 0
     ignoreListenerPause: 0
     originalVolume: 0
     source: {fileID: 0}
