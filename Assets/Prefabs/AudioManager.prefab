@@ -81,7 +81,51 @@ MonoBehaviour:
     ignoreListenerPause: 0
     originalVolume: 0
     source: {fileID: 0}
-  SFXSounds: []
+  - name: track4
+    clip: {fileID: 8300000, guid: 588cf35ce51be4ecaad06a1daff56cc1, type: 3}
+    output: {fileID: -3719356908560596754, guid: 22a081be117774d84a95e66c5d40434b,
+      type: 2}
+    volume: 1
+    pitch: 1
+    loop: 1
+    playonawake: 0
+    ignoreListenerPause: 0
+    originalVolume: 0
+    source: {fileID: 0}
+  - name: track5
+    clip: {fileID: 8300000, guid: c2a954a3b7db741afa96bd5c8b29b5a5, type: 3}
+    output: {fileID: -3719356908560596754, guid: 22a081be117774d84a95e66c5d40434b,
+      type: 2}
+    volume: 1
+    pitch: 1
+    loop: 1
+    playonawake: 0
+    ignoreListenerPause: 0
+    originalVolume: 0
+    source: {fileID: 0}
+  SFXSounds:
+  - name: sucess
+    clip: {fileID: 8300000, guid: 784220e700ac645f381c09b0674f10f1, type: 3}
+    output: {fileID: -1568103188693699218, guid: 22a081be117774d84a95e66c5d40434b,
+      type: 2}
+    volume: 1
+    pitch: 1
+    loop: 0
+    playonawake: 0
+    ignoreListenerPause: 0
+    originalVolume: 0
+    source: {fileID: 0}
+  - name: fail
+    clip: {fileID: 8300000, guid: fefb23e93a085498388181a8727c73a2, type: 3}
+    output: {fileID: -1568103188693699218, guid: 22a081be117774d84a95e66c5d40434b,
+      type: 2}
+    volume: 1
+    pitch: 1
+    loop: 0
+    playonawake: 0
+    ignoreListenerPause: 0
+    originalVolume: 0
+    source: {fileID: 0}
   currMusicName: 
 --- !u!82 &2086853189477164793
 AudioSource:
