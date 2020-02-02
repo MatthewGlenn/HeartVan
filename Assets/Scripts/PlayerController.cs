@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public static class Lanes
+{
+    public const float Left = -20.3f;
+    public const float Middle = 3.1f;
+    public const float Right = 26.3f;
+}
+
 public class PlayerController : MonoBehaviour
 {
     public Rigidbody rb;
@@ -29,20 +36,12 @@ public class PlayerController : MonoBehaviour
 
     private CharacterController characterController;
     public int joystickNumber;
-    
-
-    private enum Lanes {
-        Left = -2,
-        Middle = 0,
-        Right = 2
-    }
 
     // Start is called before the first frame update
     void Start()
     {
         
         characterController = GetComponent<CharacterController>();
-        
         ControllerConnected();
         ControllerConnected();
 
@@ -70,21 +69,18 @@ public class PlayerController : MonoBehaviour
         
 
         if(IsLeft) {
-            dummyMovement("left");
+            vanMovement(Lanes.Left);
             OneInput = "left";
-            //Debug.Log("I got left!");
         }
 
         if(IsRight) {
-            dummyMovement("right");
+            vanMovement(Lanes.Right);
             OneInput = "right";
-            //Debug.Log("I got right!");
         }
         
         if(IsUp) {
-            dummyMovement("up");
+            vanMovement(Lanes.Middle);
             OneInput = "up";
-            //Debug.Log("I got up!");
         }
 
         // if(secondController == 1)
@@ -95,7 +91,16 @@ public class PlayerController : MonoBehaviour
         //     checkInputPS();
         // }
 
-        checkInputKeyBoardPlayer2();
+        
+        if(Input.GetJoystickNames().Length > 1) {
+            Debug.Log("Got here");
+            checkInputXboxW2();
+        }
+        else {
+            checkInputKeyBoardPlayer2();
+        }
+        
+
 
         if(IsLeft) {
             TwoInput = "left";
@@ -199,6 +204,28 @@ public class PlayerController : MonoBehaviour
         float y = Input.GetAxis("dpad-up1");
         float z = Input.GetAxis("dpad-right1");
         
+        string joystickString = joystickNumber.ToString();
+        Debug.Log("JoystickNumber: " + joystickString);
+
+        if(x != 0 )
+            IsLeft = true;
+        if(y != 0 ) 
+            IsUp = true;
+        if(z != 0 )
+            IsRight = true;
+
+    }
+
+    void checkInputXboxW2() {
+        resetInput();
+
+        // contollers on mac
+        float x = Input.GetAxis("dpad-left2");
+        float y = Input.GetAxis("dpad-up2");
+        float z = Input.GetAxis("dpad-right2");
+
+        Debug.Log(x);
+
         if(x != 0 )
             IsLeft = true;
         if(y != 0 ) 
@@ -295,45 +322,9 @@ public class PlayerController : MonoBehaviour
         }
         return "OTHER";
     }
-
-    void moveToLane(Lanes lane){
-        
-        
-    //     dummyMovement();
-    //     //TODO:Replace Dummy with animation controller calls in the switch statement
-    //     switch (lane)
-    //     {
-    //         case Lanes.Left:
-    //             Debug.Log("Move "+lane);
-    //             break;
-    //         case Lanes.Middle:
-    //             Debug.Log("Move "+lane);
-    //             break;
-    //         case Lanes.Right:
-    //             Debug.Log("Move "+lane);
-    //             break;
-    //     }
-    //     driftToCenter();
-    }
-
-    private void dummyMovement(string direction)
-    {
-        var move = new Vector3(0f,1186f, 864f);
-        float mapWidth = 25.33f;
-        if(direction=="left")
-            move = new Vector3(-10.1f,1186f,864f);
-        else if(direction=="up") {
-            move = new Vector3(10.1f,1186f,864f);
-            mapWidth = 3.1f;
-        }
-        else if(direction=="right")
-            move = new Vector3(10.1f,1186f,864f);
-        
-         Vector3 newPosition = rb.position + move;
-         move.x = Mathf.Clamp(newPosition.x, -mapWidth+4, mapWidth);
-         rb.MovePosition(move);
-
-
-
+    
+    private void vanMovement(float lane) {
+        var move = new Vector3(lane,1186f,864f);
+        rb.MovePosition(move);
     }
 }
