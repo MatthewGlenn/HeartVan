@@ -52,7 +52,7 @@ public class SignController : MonoBehaviour
 
     public float speed = -100;
 
-    //private int key = 32;
+    private int key = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -193,13 +193,13 @@ public class SignController : MonoBehaviour
 
     	//Debug.Log(key);
     	//choiceSprite = keys[key++];
+    	//Debug.Log(choiceSprite);
 
     	lastKeys.Enqueue(choiceSprite);
     	if (lastKeys.Count > lastKeysMaxCount) {
     		lastKeys.Dequeue();
     	}
 
-    	//Debug.Log(choiceSprite);
     	leftSignSR.sprite = sprites[spriteIndex[choiceSprite]];
     	rightSignSR.sprite = sprites[spriteIndex[choiceSprite]];
     	upChoiceSR.sprite = sprites[spriteIndex[choices[choiceSprite].left]];
