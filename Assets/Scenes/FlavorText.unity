@@ -957,8 +957,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.00001049, y: 115}
-  m_SizeDelta: {x: 714.4, y: 110.6}
+  m_AnchoredPosition: {x: 0.00001049, y: 96.4}
+  m_SizeDelta: {x: 714.4, y: 147.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1955253825
 MonoBehaviour:
@@ -991,7 +991,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Player 1 and player 2. Your friendship has died. '
+  m_Text: Player 1 and player 2 your friendship is on the rocks.
 --- !u!222 &1955253826
 CanvasRenderer:
   m_ObjectHideFlags: 0
