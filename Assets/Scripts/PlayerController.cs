@@ -15,10 +15,15 @@ public class PlayerController : MonoBehaviour
     public float speed = 1.0f;
 
     public static bool IsLeft, IsRight, IsUp;
+
+    public string OneInput = "";
+    public string TwoInput = "";
+
     public enum ControllerTypeConnected { XboxW = 1, XboxWL = 2, Playstation = 3, Other = 4}
     
     public ControllerTypeConnected controllerTypeConnected;
     public static int controller = 0;
+    public static int secondController = 0;
 
     private CharacterController characterController;
     public int joystickNumber;
@@ -35,8 +40,9 @@ public class PlayerController : MonoBehaviour
     {
         
         characterController = GetComponent<CharacterController>();
+        
         ControllerConnected();
-
+        ControllerConnected();
     }
 
     // Update is called once per frame
@@ -55,16 +61,44 @@ public class PlayerController : MonoBehaviour
 
         if(IsLeft) {
             dummyMovement("left");
+            OneInput = "left";
             //Debug.Log("I got left!");
         }
 
         if(IsRight) {
             dummyMovement("right");
+            OneInput = "right";
             //Debug.Log("I got right!");
         }
         
         if(IsUp) {
             dummyMovement("up");
+            OneInput = "up";
+            //Debug.Log("I got up!");
+        }
+
+        // if(secondController == 1)
+        //     checkInputXboxW();
+        // else if(secondController == 2)
+        //     checkInputXboxWL();
+        // else if(secondController == 3) {
+        //     checkInputPS();
+        // }
+
+        checkInputKeyBoard();
+
+        if(IsLeft) {
+            TwoInput = "left";
+            //Debug.Log("I got left!");
+        }
+
+        if(IsRight) {
+            TwoInput = "right";
+            //Debug.Log("I got right!");
+        }
+        
+        if(IsUp) {
+            TwoInput = "up";
             //Debug.Log("I got up!");
         }
     }
@@ -143,27 +177,51 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    void checkInputKeyBoard() {
+        resetInput();
+        if (Input.GetKey(KeyCode.UpArrow))
+            IsUp = true;
+        if (Input.GetKey(KeyCode.LeftArrow))
+            IsLeft = true;
+        if (Input.GetKey(KeyCode.RightArrow))
+            IsRight = true;
+        
+    }
+
     private void ControllerConnected()
     {
         if (getControllerType() == "XBOX WIRELESS")
         {
-            controller = (int)ControllerTypeConnected.XboxWL;
+            if(controller==0)
+                controller = (int)ControllerTypeConnected.XboxWL;
+            else
+                secondController = (int)ControllerTypeConnected.XboxWL;
             //UnityEngine.Debug.Log("You connected an xbox wireless controller!");
+            Debug.Log("secondController is " + secondController);
         }
         else if (getControllerType() == "XBOX WIRED")
         {
-            controller = (int)ControllerTypeConnected.XboxW;
+            if(controller==0)
+                controller = (int)ControllerTypeConnected.XboxW;
+            else
+                secondController = (int)ControllerTypeConnected.XboxW;
             //UnityEngine.Debug.Log("You connected a xbox wired controller!");
+            Debug.Log("secondController is " + secondController);
         }
         else if (getControllerType() == "PS")
         {
-            controller = (int)ControllerTypeConnected.Playstation;
+            if(controller==0)
+                controller = (int)ControllerTypeConnected.Playstation;
+            else
+                secondController = (int)ControllerTypeConnected.Playstation;
             //UnityEngine.Debug.Log("You connected a playstation controller!");
+            Debug.Log("secondController is " + secondController);
         }
-        else
-        {
-            controller = (int)ControllerTypeConnected.Other;
-        }
+        // else
+        // {
+        //     if(controller==0)
+        //     controller = (int)ControllerTypeConnected.Other;
+        // }
  
     }
 
@@ -173,7 +231,7 @@ public class PlayerController : MonoBehaviour
  
         foreach (string joystickName in joystickNames)
         {
-            //Debug.Log(joystickName);
+            Debug.Log(joystickName);
             if (joystickName.ToLower().Contains("xbox wireless controller") || joystickName.ToLower().Contains("xbox bluetooth gamepad"))
             {
                 return "XBOX WIRELESS";
@@ -220,21 +278,21 @@ public class PlayerController : MonoBehaviour
 
     private void dummyMovement(string direction)
     {
-        var middle = GameObject.Find("Middle Position");
-        Vector3 move = Vector3.left;
+        var move = new Vector3(0f,1186f, 864f);
+        float mapWidth = 25.33f;
         if(direction=="left")
-            move = Vector3.left;
+            move = new Vector3(-10.1f,1186f,864f);
         else if(direction=="up") {
-            move = Vector3.zero;
-            rb.position = middle.transform.position;
+            move = new Vector3(10.1f,1186f,864f);
+            mapWidth = 3.1f;
         }
         else if(direction=="right")
-            move = Vector3.right;
+            move = new Vector3(10.1f,1186f,864f);
         
-         Vector2 newPosition = rb.position + move;
-         float mapWidth = 1.5f;
-         newPosition.x = Mathf.Clamp(newPosition.x, -mapWidth, mapWidth);
-         rb.MovePosition(newPosition);
+         Vector3 newPosition = rb.position + move;
+         move.x = Mathf.Clamp(newPosition.x, -mapWidth+4, mapWidth);
+         rb.MovePosition(move);
+
 
 
     }
