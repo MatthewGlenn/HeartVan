@@ -96,22 +96,35 @@ public class AudioManager : MonoBehaviour
         MakeSource(currentMusicSound);
         currentMusicSound.source.Play();
     }
+    
+    public void StartWin()
+    {
+        if (currentMusicSound != null)
+        {
+            Stop(currentMusicSound);
+        }
+        
+        currentMusicSound = GetSound("track5");
+        MakeSource(currentMusicSound);
+        currentMusicSound.source.Play();
+    }
 
     public void Success()
     {
-        //Debug.Log("Success called");
+        Debug.Log("Success called");
         PlayFX("success");
         if (currTrackNumber < 5) { StartCoroutine(PlayNextTrack()); }
     }
 
     public void Failure()
     {
-        //Debug.Log("Failure called");
+        Debug.Log("Failure called");
         if (currTrackNumber < 5) { StartCoroutine(PlayError()); }
     }
 
     private IEnumerator PlayError()
     {
+        Debug.Log("play error called");
         failureSound.source.Play();
         currentMusicSound.source.volume = 0;
         //currentMusicSound.source.Stop();
@@ -144,7 +157,7 @@ public class AudioManager : MonoBehaviour
 
     private IEnumerator PlayNextTrack()
     {
-        //Debug.LogWarning("playing next track");
+        Debug.LogWarning("playing next track");
         if (nextMusicSound == null) { yield break;} 
         if (!nextMusicSound.source.isPlaying){}
         //Debug.LogWarning("nextS: " + nextMusicSound.name);
