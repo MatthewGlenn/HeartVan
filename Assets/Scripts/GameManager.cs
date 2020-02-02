@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class GameManager : MonoBehaviour
     public GameObject van;
     public PlayerController playerController;
     public AudioManager audioManager;
+    public Text responseText;
 
     private float deltaTime = 0f;
 
