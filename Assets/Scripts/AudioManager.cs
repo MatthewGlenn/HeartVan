@@ -47,6 +47,10 @@ public class AudioManager : MonoBehaviour
             currentMusicSound = GetSound("track1");
             StartGame();
         }
+        if (SceneManager.GetActiveScene().name == "Credits")
+        {
+            StartCredits();
+        }
     }
 
     public void PlayMenuMusic()
@@ -75,6 +79,18 @@ public class AudioManager : MonoBehaviour
 
         failureSound = GetSound(("fail"), SoundType.FX);
         MakeSource((failureSound));
+    }
+
+    public void StartCredits()
+    {
+        if (currentMusicSound != null)
+        {
+            Stop(currentMusicSound);
+        }
+        
+        currentMusicSound = GetSound("title_loop");
+        MakeSource(currentMusicSound);
+        currentMusicSound.source.Play();
     }
 
     public void Success()
@@ -384,18 +400,6 @@ public class AudioManager : MonoBehaviour
         sound.source.clip.UnloadAudioData();
         sound.clip.UnloadAudioData();
         Destroy(sound.source);
-    }
-
-    public IEnumerator FadeOutBlip(AudioSource audioSource, float FadeTime)
-    {
-        float startVolume = audioSource.volume;
-        while (audioSource.volume > 0)
-        {
-            audioSource.volume -= startVolume * Time.deltaTime / FadeTime;
-            yield return null;
-        }
-        audioSource.Stop();
-        audioSource.volume = startVolume;
     }
 
 }
