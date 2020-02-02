@@ -1740,9 +1740,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sign: {fileID: 1280614758}
   van: {fileID: 8296172668229456086}
-  playerController: {fileID: 0}
+  playerController: {fileID: 8296172668229456088}
   audioManager: {fileID: 1141976832}
   responseText: {fileID: 1415704849}
+  sceneHandler: {fileID: 1304058577}
+  pointsToComplete: 4
 --- !u!1 &1544270060
 GameObject:
   m_ObjectHideFlags: 0
@@ -2374,3 +2376,15 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 25.84179, y: 28.17825, z: 62.369926}
   m_Center: {x: 0, y: 14.089125, z: -0.0000009536743}
+--- !u!114 &8296172668229456088 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -120112167180628473, guid: 054452cf8d4972244be8ba2301de0eaa,
+    type: 3}
+  m_PrefabInstance: {fileID: 4983822533334782813}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8296172668229456086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27bcca0623fc84701bd7ff885c055ae3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
