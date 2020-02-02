@@ -2,6 +2,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
@@ -37,6 +38,30 @@ public class AudioManager : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
 
+        if (SceneManager.GetActiveScene().name == "MainMenu")
+        {
+            PlayMenuMusic();
+        }
+        if (SceneManager.GetActiveScene().name == "Game")
+        {
+            StartGame();
+        }
+    }
+
+    public void PlayMenuMusic()
+    {
+        currentMusicSound = GetSound("title_loop");
+        MakeSource(currentMusicSound);
+        currentMusicSound.source.Play();
+    }
+
+    public void StartGame()
+    {
+        if (currentMusicSound.name == "title_loop")
+        {
+            Stop(currentMusicSound);
+        }
+        
         currTrackNumber = 1;
         currentMusicSound = GetSound("track1");
         MakeSource((currentMusicSound));
@@ -248,7 +273,13 @@ public class AudioManager : MonoBehaviour
         if (sound.source == null) { return; }
         sound.source.Stop();
     }
-
+    
+    public void Stop(Sound s)
+    {
+        if (s.source == null) { return; }
+        s.source.Stop();
+    }
+    
     public void FadeInSFX(string name)
     {
         Sound s = GetSound(name);
