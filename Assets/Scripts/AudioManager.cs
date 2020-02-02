@@ -45,6 +45,16 @@ public class AudioManager : MonoBehaviour
         nextMusicSound.source.Play();
     }
 
+    public void Success()
+    {
+        
+    }
+
+    public void Failure()
+    {
+        
+    }
+
     public void InitializeMusicSounds()
     {
    
