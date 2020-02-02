@@ -6,7 +6,8 @@ public class GameManager : MonoBehaviour
 {
 	// Reference to the Prefab. Drag a Prefab into this field in the Inspector.
     public GameObject sign;
-    public Vector3 signSpawnPosition;
+    public GameObject van;
+    public AudioManager audioManager;
 
     private float deltaTime = 0f;
 
@@ -18,25 +19,30 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         sc = sign.GetComponent<SignController>();
-        Debug.Log(sc);
     }
 
     // Update is called once per frame
     void Update()
     {
     	if (started) {
-            Debug.Log(deltaTime);
 	        deltaTime += Time.deltaTime;
 	        if (deltaTime > 7f) {
-	        	sc.next();
-	        	deltaTime = 0f;
+                //Check the gates
+                
+	        	started = false;
         	}
     	}
     }
 
+    public void resetLoop()
+    {
+        sc.next();
+        deltaTime = 0f;
+        started = true;
+    }
+
     public void startGame()
     {
-        Debug.Log("hit startGame");
     	started = true;
     }
 }
