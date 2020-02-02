@@ -879,8 +879,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.00001049, y: 85.14999}
-  m_SizeDelta: {x: 714.4, y: 170.3}
+  m_AnchoredPosition: {x: 0.00001049, y: 48.099995}
+  m_SizeDelta: {x: 714.4, y: 244.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1907018074
 MonoBehaviour:
@@ -914,7 +914,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Player 1 must decide how their lost friend would react by driving their
-    van under the correct emoji using their d-pad
+    van under the correct emoji using WASD and Arrow Keys.
 --- !u!222 &1907018075
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1130,6 +1130,7 @@ MonoBehaviour:
   step6: {fileID: 1907018072}
   step7: {fileID: 1762698471}
   step8: {fileID: 1994195716}
+  am: {fileID: 0}
 --- !u!1 &1974495010
 GameObject:
   m_ObjectHideFlags: 0
