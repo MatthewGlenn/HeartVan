@@ -24,7 +24,7 @@ public class SignFactory : MonoBehaviour
     void Update()
     {
         deltaTime += Time.deltaTime;
-        if (deltaTime > 7f) {
+        if (deltaTime > 3f) {
         	sc.next();
         	deltaTime = 0f;
         }
