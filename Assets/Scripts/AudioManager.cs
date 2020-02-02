@@ -18,6 +18,8 @@ public class AudioManager : MonoBehaviour
 
     enum SoundType { FX, Music, Both };
 
+    private int currTrackNumber;
+
     private void Awake()
     {
         //Ensure that only one instance of this class is created (we don't want a new AudioManager everytime a scene loads)
@@ -29,7 +31,63 @@ public class AudioManager : MonoBehaviour
             return;
         }
         DontDestroyOnLoad(gameObject);
+
     }
+
+    public void Initialize()
+    {
+        currTrackNumber = 1;
+        PlayMusic("track1");
+        Sound t2 = GetSound("track2");
+        MakeSource(t2);
+        t2.source.volume = 0;
+        t2.source.Play();
+    }
+
+    public IEnumerator playNextTrack()
+    {
+        Sound currentS = GetSound(currMusicName, SoundType.Music);
+        Sound nextS = GetSound("track" + (currTrackNumber + 1), SoundType.Music);
+
+        Debug.LogWarning("nextS: " + nextS.name);
+
+        MakeSource(nextS);
+
+        //yield return new WaitForSeconds(currentS.source.clip.samples - currentS.source.timeSamples);
+
+        yield return new WaitForSeconds(currentS.clip.length - currentS.source.time);
+
+        StartCoroutine(FadeIn(nextS.source, fadeTimeDefault, nextS.volume));
+        StartCoroutine(FadeOutAndUnload(currentS, fadeTimeDefault));
+
+        currTrackNumber = currTrackNumber + 1;
+
+        Sound newTrackSound = GetSound("track" + currTrackNumber);
+        //TODO: need to write method for playing sound at timecode;
+    }/**/
+
+    /*public void playNextTrack()
+    {
+        Sound currentS = GetSound(currMusicName, SoundType.Music);
+        Sound nextS = GetSound("track" + (currTrackNumber + 1), SoundType.Music);
+
+        Debug.LogWarning("nextS: " + nextS.name);
+
+        MakeSource(nextS);
+
+        //yield return new WaitForSeconds(currentS.source.clip.samples - currentS.source.timeSamples);
+
+        nextS.source.PlayDelayed(currentS.clip.length - currentS.source.time);
+
+        Debug.Log("delay: " + (currentS.clip.length - currentS.source.time));
+
+        //currentS.source.Stop();
+        //nextS.source.Play();
+
+        //currentS.source.clip.UnloadAudioData();
+
+       currTrackNumber = currTrackNumber + 1;
+    }*/
 
     public bool IsMusicPlaying()
     {
@@ -146,6 +204,14 @@ public class AudioManager : MonoBehaviour
         currMusicName = s;
     }
 
+    public void PlayMusicAtTime(string s, float )
+    {
+        Sound currentS = GetSound(s, SoundType.Music);
+        if (currentS.source == null) { MakeSource(currentS); }
+        currentS.source.Play();
+        currMusicName = s;
+    }
+
     public void Stop(string name)
     {
         Sound sound = GetSound(name);
@@ -234,7 +300,10 @@ public class AudioManager : MonoBehaviour
 
     public static IEnumerator FadeIn(AudioSource audioSource, float FadeTime, float maxVol = 1f)
     {
-        audioSource.Play();
+        if (!audioSource.isPlaying)
+        {
+            audioSource.Play();
+        }
         audioSource.volume = 0f;
         while (audioSource.volume < maxVol)
         {
