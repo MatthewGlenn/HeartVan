@@ -55,6 +55,10 @@ public class AudioManager : MonoBehaviour
 
     public void PlayMenuMusic()
     {
+        if (currentMusicSound != null)
+        {
+            if(currentMusicSound.name != "title_loop") { Stop(currentMusicSound); }
+        }
         currentMusicSound = GetSound("title_loop");
         MakeSource(currentMusicSound);
         currentMusicSound.source.Play();
@@ -62,9 +66,9 @@ public class AudioManager : MonoBehaviour
 
     public void StartGame()
     {
-        if (currentMusicSound.name == "title_loop")
+        if (currentMusicSound != null)
         {
-            Stop(currentMusicSound);
+            if(currentMusicSound.name != "track1") { Stop(currentMusicSound); }
         }
         
         currTrackNumber = 1;
@@ -110,13 +114,29 @@ public class AudioManager : MonoBehaviour
     {
         failureSound.source.Play();
         currentMusicSound.source.volume = 0;
+        currentMusicSound.source.Stop();
+
+        if (currTrackNumber == 1)
+        { 
+            currentMusicSound = GetSound("track1");
+        }
+        else
+        {
+            currentMusicSound = GetSound("track"+(currTrackNumber-1));
+        }
         
+        MakeSource(currentMusicSound);
+
         yield return new WaitForSeconds(failureSound.clip.length);
         
         FindObjectOfType<GameManager>().resetLoop();
-        
+
+        if (currTrackNumber > 1) { currTrackNumber = currTrackNumber - 1; }
+
         currentMusicSound.source.Play();
         StartCoroutine(FadeIn(currentMusicSound.source, fadeTimeDefault));
+        nextMusicSound = GetSound("track" + (currTrackNumber + 1));
+        MakeSource(nextMusicSound);
 
     }
 
@@ -126,10 +146,9 @@ public class AudioManager : MonoBehaviour
         if (nextMusicSound == null) { yield break;} 
         if (!nextMusicSound.source.isPlaying){}
         //Debug.LogWarning("nextS: " + nextMusicSound.name);
-
-        //yield return new WaitForSeconds(currentS.source.clip.samples - currentS.source.timeSamples);
-
+        
         nextMusicSound.source.time = currentMusicSound.source.time;
+        
         //subtracting extra to try to start transition a bit early
         yield return new WaitForSeconds(currentMusicSound.clip.length - currentMusicSound.source.time - (fadeTimeDefault/2));
 
