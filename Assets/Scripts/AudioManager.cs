@@ -53,14 +53,14 @@ public class AudioManager : MonoBehaviour
 
     public void Success()
     {
-        Debug.Log("Success called");
+        //Debug.Log("Success called");
         PlayFX("success");
         if (currTrackNumber < 5) { StartCoroutine(PlayNextTrack()); }
     }
 
     public void Failure()
     {
-        Debug.Log("Failure called");
+        //Debug.Log("Failure called");
         if (currTrackNumber < 5) { StartCoroutine(PlayError()); }
     }
 
@@ -80,7 +80,7 @@ public class AudioManager : MonoBehaviour
 
     private IEnumerator PlayNextTrack()
     {
-        Debug.LogWarning("playing next track");
+        //Debug.LogWarning("playing next track");
         if (nextMusicSound == null) { yield break;} 
         if (!nextMusicSound.source.isPlaying){}
         //Debug.LogWarning("nextS: " + nextMusicSound.name);
@@ -91,7 +91,7 @@ public class AudioManager : MonoBehaviour
         //subtracting extra to try to start transition a bit early
         yield return new WaitForSeconds(currentMusicSound.clip.length - currentMusicSound.source.time - (fadeTimeDefault/2));
 
-        Debug.Log("yielded");
+        //Debug.Log("yielded");
         FindObjectOfType<GameManager>().resetLoop();
         
         StartCoroutine(FadeIn(nextMusicSound.source, fadeTimeDefault, nextMusicSound.volume));
@@ -110,8 +110,8 @@ public class AudioManager : MonoBehaviour
         MakeSource(nextMusicSound);
         nextMusicSound.source.volume = 0;
 
-        Debug.Log("current track number: "+currTrackNumber);
-        Debug.Log("track" + (currTrackNumber + 1));
+        //Debug.Log("current track number: "+currTrackNumber);
+        //Debug.Log("track" + (currTrackNumber + 1));
         if (nextMusicSound != null)
         {
             PlayMusic(nextMusicSound, currentMusicSound.source.time);
@@ -153,7 +153,7 @@ public class AudioManager : MonoBehaviour
                 return;
             }
         }
-        Debug.LogWarning("could not find AudioMixerGroup name: " + groupName);
+        //Debug.LogWarning("could not find AudioMixerGroup name: " + groupName);
 
         return;
     }
@@ -223,7 +223,7 @@ public class AudioManager : MonoBehaviour
         Sound currentS = GetSound(s);
         if (currentS.source == null) { MakeSource(currentS); }
         currentS.source.Play();
-        Debug.Log("Playing audio: " + s);
+        //Debug.Log("Playing audio: " + s);
     }
 
     public void PlayMusic(string s)
@@ -231,7 +231,7 @@ public class AudioManager : MonoBehaviour
         Sound currentS = GetSound(s, SoundType.Music);
         if (currentS.source == null) { MakeSource(currentS); }
         currentS.source.Play();
-        Debug.Log("Playing music: " + s);
+        //Debug.Log("Playing music: " + s);
     }
 
     private void PlayMusic(Sound s, float playTime)
@@ -239,7 +239,7 @@ public class AudioManager : MonoBehaviour
         if (s.source == null) { MakeSource(s); }
         s.source.time = playTime;
         s.source.Play();
-        Debug.Log("Playing music: " + s);
+        //Debug.Log("Playing music: " + s);
     }
 
     public void Stop(string name)

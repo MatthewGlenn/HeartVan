@@ -12,10 +12,6 @@ public class GameManager : MonoBehaviour
     public AudioManager audioManager;
     public Text responseText;
 
-    private float deltaTime = 0f;
-
-    private bool started = false;
-
     private string playerTwoValue = "";
 
     SignController sc;
@@ -31,40 +27,35 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-    	if (started) {
-	        deltaTime += Time.deltaTime;
-	        if (deltaTime > 7f) {
-                //Check the gates
-                if (playerController.OneInput.Equals(playerTwoValue))
-                {
-                    audioManager.Success();
-                } else {
-                    audioManager.Failure();
-                }
-	        	started = false;
-        	}
-    	}
+
     }
 
     public void resetLoop()
     {
         sc.next();
-        deltaTime = 0f;
-        started = true;
-    }
-
-    public void startGame()
-    {
-    	started = true;
     }
 
     public void enteredInputArea()
     {
         playerController.reset();
+        Debug.Log("Entered Input Area");
     }
 
     public void leftInputArea()
     {
         playerTwoValue = playerController.TwoInput;
+        Debug.Log("Left Input Area");
+    }
+
+    public void triggerGate()
+    {
+        Debug.Log("Gate Passed. One: " + playerController.OneInput + " Two: " + playerTwoValue);
+        //Check the gates
+        if (playerController.OneInput.Equals(playerTwoValue))
+        {
+            audioManager.Success();
+        } else {
+            audioManager.Failure();
+        }
     }
 }

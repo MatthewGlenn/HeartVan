@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
 
     public static bool IsLeft, IsRight, IsUp;
 
-    public string OneInput = "IsUp";
+    public string OneInput = "up";
     public string TwoInput = "";
 
     public enum ControllerTypeConnected { XboxW = 1, XboxWL = 2, Playstation = 3, Other = 4}
@@ -45,6 +45,8 @@ public class PlayerController : MonoBehaviour
         
         ControllerConnected();
         ControllerConnected();
+
+        OneInput = "up";
     }
 
     // Update is called once per frame
@@ -114,8 +116,12 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log(other);
         if (other.name == "SelectionArea")
             gameManager.enteredInputArea();
+
+        if (other.name == "Sign")
+            gameManager.triggerGate();
     }
 
     private void OnTriggerExit(Collider other)
