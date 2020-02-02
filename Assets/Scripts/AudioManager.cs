@@ -18,6 +18,10 @@ public class AudioManager : MonoBehaviour
 
     enum SoundType { FX, Music, Both };
 
+    private int currTrackNumber;
+    private Sound currentMusicSound;
+    private Sound nextMusicSound;
+
     private void Awake()
     {
         //Ensure that only one instance of this class is created (we don't want a new AudioManager everytime a scene loads)
@@ -29,6 +33,58 @@ public class AudioManager : MonoBehaviour
             return;
         }
         DontDestroyOnLoad(gameObject);
+
+        currTrackNumber = 1;
+        currentMusicSound = GetSound("track1");
+        MakeSource((currentMusicSound));
+        nextMusicSound = GetSound(("track2"));
+        MakeSource((nextMusicSound));
+        nextMusicSound.source.volume = 0;
+
+        currentMusicSound.source.Play();
+        nextMusicSound.source.Play();
+    }
+
+    public void InitializeMusicSounds()
+    {
+   
+    }
+
+    public IEnumerator PlayNextTrack()
+    {
+        Debug.LogWarning("playing next track");
+        if (nextMusicSound == null) { yield break;} 
+        if (!nextMusicSound.source.isPlaying){}
+        //Debug.LogWarning("nextS: " + nextMusicSound.name);
+
+        //yield return new WaitForSeconds(currentS.source.clip.samples - currentS.source.timeSamples);
+
+        nextMusicSound.source.time = currentMusicSound.source.time;
+        //subtracting extra to try to start transition a bit early
+        yield return new WaitForSeconds(currentMusicSound.clip.length - currentMusicSound.source.time - (fadeTimeDefault/2));
+
+        StartCoroutine(FadeIn(nextMusicSound.source, fadeTimeDefault, nextMusicSound.volume));
+        StartCoroutine(FadeOut(currentMusicSound.source, fadeTimeDefault));
+
+        currTrackNumber = currTrackNumber + 1;
+
+        yield return new WaitForSeconds(2);
+        
+        //unload old audio
+        UnloadAudio(currentMusicSound);
+
+        currentMusicSound = nextMusicSound;
+
+        nextMusicSound = GetSound("track" + (currTrackNumber + 1)); 
+        MakeSource(nextMusicSound);
+        nextMusicSound.source.volume = 0;
+
+        Debug.Log("current track number: "+currTrackNumber);
+        Debug.Log("track" + (currTrackNumber + 1));
+        if (nextMusicSound != null)
+        {
+            PlayMusic(nextMusicSound, currentMusicSound.source.time);
+        }
     }
 
     public bool IsMusicPlaying()
@@ -71,7 +127,7 @@ public class AudioManager : MonoBehaviour
         return;
     }
 
-    public void SceneTransition(string nextSceneName)
+    /*public void SceneTransition(string nextSceneName)
     {
         Sound nextS = GetSound(nextSceneName, SoundType.Music);
         Sound currentS = GetSound(currMusicName, SoundType.Music);
@@ -89,7 +145,7 @@ public class AudioManager : MonoBehaviour
         currMusicName = nextSceneName;
 
         return;
-    }
+    }*/
 
     public void SceneEnd()
     {
@@ -136,6 +192,7 @@ public class AudioManager : MonoBehaviour
         Sound currentS = GetSound(s);
         if (currentS.source == null) { MakeSource(currentS); }
         currentS.source.Play();
+        Debug.Log("Playing audio: " + s);
     }
 
     public void PlayMusic(string s)
@@ -143,7 +200,15 @@ public class AudioManager : MonoBehaviour
         Sound currentS = GetSound(s, SoundType.Music);
         if (currentS.source == null) { MakeSource(currentS); }
         currentS.source.Play();
-        currMusicName = s;
+        Debug.Log("Playing music: " + s);
+    }
+
+    private void PlayMusic(Sound s, float playTime)
+    {
+        if (s.source == null) { MakeSource(s); }
+        s.source.time = playTime;
+        s.source.Play();
+        Debug.Log("Playing music: " + s);
     }
 
     public void Stop(string name)
@@ -226,7 +291,8 @@ public class AudioManager : MonoBehaviour
         float startVolume = audioSource.volume;
         while (audioSource.volume > 0)
         {
-            audioSource.volume -= startVolume * Time.deltaTime / FadeTime;
+            if (FadeTime == 0f) { audioSource.volume = 0; }
+            else{ audioSource.volume -= startVolume * Time.deltaTime / FadeTime; }
             yield return null;
         }
         audioSource.Stop();
@@ -234,26 +300,43 @@ public class AudioManager : MonoBehaviour
 
     public static IEnumerator FadeIn(AudioSource audioSource, float FadeTime, float maxVol = 1f)
     {
-        audioSource.Play();
+        if (!audioSource.isPlaying)
+        {
+            audioSource.Play();
+        }
         audioSource.volume = 0f;
         while (audioSource.volume < maxVol)
         {
-            audioSource.volume += Time.deltaTime / FadeTime;
+            if (FadeTime == 0f) { audioSource.volume = maxVol; }
+            else{ audioSource.volume += Time.deltaTime / FadeTime; }
             yield return null;
         }
     }
 
+    private void UnloadAudio(Sound s)
+    {
+        if (s.source.isPlaying)
+        {
+            s.source.Stop();
+        }
+        s.source.Stop();
+        s.source.clip.UnloadAudioData();
+        s.clip.UnloadAudioData();
+        Destroy(s.source);
+    }
+
     public IEnumerator FadeOutAndUnload(Sound sound, float FadeTime)
     {
-        AudioSource audioSource = GetSource(sound);
-        float startVolume = audioSource.volume;
-        while (audioSource.volume > 0)
+        float startVolume = sound.source.volume;
+        while (sound.source.volume > 0)
         {
-            audioSource.volume -= startVolume * (Time.deltaTime / FadeTime);
+            sound.source.volume -= startVolume * (Time.deltaTime / FadeTime);
             yield return null;
         }
-        audioSource.Stop();
-        audioSource.clip.UnloadAudioData();
+        sound.source.Stop();
+        sound.source.clip.UnloadAudioData();
+        sound.clip.UnloadAudioData();
+        Destroy(sound.source);
     }
 
     public IEnumerator FadeOutBlip(AudioSource audioSource, float FadeTime)
