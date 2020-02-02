@@ -101,6 +101,7 @@ public class PlayerController : MonoBehaviour
             TwoInput = "up";
             //Debug.Log("I got up!");
         }
+        resetInput();
     }
 
     public void reset() {
